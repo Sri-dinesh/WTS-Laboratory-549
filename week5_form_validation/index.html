@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Form Validation — Week 05</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --surface: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #94a3b8;
+            --border-color: #e2e8f0;
+            --rose-primary: #e11d48;
+            --rose-light: #fff1f2;
+            --rose-border: #fecdd3;
+            --emerald-primary: #10b981;
+            --emerald-light: #ecfdf5;
+            --emerald-border: #a7f3d0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-card: 0 20px 25px -5px rgba(225, 29, 72, 0.08), 0 8px 10px -6px rgba(225, 29, 72, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: radial-gradient(at 10% 10%, rgba(225, 29, 72, 0.05) 0px, transparent 50%),
+                              radial-gradient(at 90% 90%, rgba(244, 63, 94, 0.04) 0px, transparent 50%);
+        }
+
+        .wrap {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 clamp(20px, 4vw, 32px);
+        }
+
+        /* ═══════════════════════════════════════════
+           TOPBAR
+           ═══════════════════════════════════════════ */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--rose-primary);
+            text-decoration: none;
+            padding: 8px 16px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-3px);
+            border-color: var(--rose-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .meta-badge {
+            font-size: 0.82rem;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 100px;
+            box-shadow: var(--shadow-sm);
+            color: var(--text-secondary);
+        }
+
+        .meta-badge strong {
+            color: var(--text-primary);
+        }
+
+        /* ═══════════════════════════════════════════
+           HERO
+           ═══════════════════════════════════════════ */
+        .hero {
+            padding: 40px 0 28px;
+            text-align: center;
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--rose-primary);
+            background: var(--rose-light);
+            border: 1px solid var(--rose-border);
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 3.5vw, 2.6rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* ═══════════════════════════════════════════
+           FORM CARD
+           ═══════════════════════════════════════════ */
+        .form-card {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: var(--shadow-card);
+            padding: clamp(28px, 5vw, 44px);
+            margin-bottom: 48px;
+        }
+
+        .field-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .field-group label {
+            display: block;
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 42px 12px 16px;
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-family: inherit;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3.5px rgba(99, 102, 241, 0.12);
+        }
+
+        input.valid {
+            border-color: var(--emerald-primary) !important;
+            background-color: #fafffc !important;
+        }
+
+        input.invalid {
+            border-color: var(--rose-primary) !important;
+            background-color: #fffafa !important;
+        }
+
+        .status-icon {
+            position: absolute;
+            right: 14px;
+            font-size: 1rem;
+            pointer-events: none;
+            display: none;
+        }
+
+        .toggle-pwd {
+            position: absolute;
+            right: 36px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            padding: 4px;
+        }
+
+        .toggle-pwd:hover {
+            color: var(--text-primary);
+        }
+
+        .field-error-msg {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--rose-primary);
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* ── Password Strength Bar ── */
+        .strength-container {
+            margin-top: 8px;
+            display: none;
+        }
+
+        .strength-bar-bg {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 100px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .strength-bar-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 100px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        .strength-text {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-tertiary);
+        }
+
+        /* ── Requirement Checklist ── */
+        .req-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 12px;
+            margin-top: 8px;
+            background: #f8fafc;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .req-item {
+            font-size: 0.72rem;
+            color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .req-item.met {
+            color: #166534;
+            font-weight: 600;
+        }
+
+        /* ── Radio Pills ── */
+        .radio-pills {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .radio-option {
+            position: relative;
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .radio-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 11px 12px;
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            background: var(--rose-light);
+            border-color: var(--rose-primary);
+            color: var(--rose-primary);
+            box-shadow: 0 2px 8px rgba(225, 29, 72, 0.15);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);
+            transition: all 0.2s ease;
+            margin-top: 24px;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.94;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(225, 29, 72, 0.4);
+        }
+
+        /* ── Success Alert ── */
+        .success-box {
+            display: none;
+            margin-top: 24px;
+            padding: 20px;
+            background: #f0fdf4;
+            border: 1.5px solid #86efac;
+            border-radius: 14px;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .success-box .title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #166534;
+            margin-bottom: 4px;
+        }
+
+        .success-box .sub {
+            font-size: 0.84rem;
+            color: #15803d;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px 0 40px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <a class="back-link" href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            <span>All Lab Programs</span>
+        </a>
+        <div class="meta-badge">
+            <strong>S Sridinesh</strong> · Week 05
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-pill">✓ Week 05 · JavaScript RegEx</div>
+        <h1>Account Registration</h1>
+        <p>Live, real-time client-side field validation with regular expressions and dynamic security indicators.</p>
+    </section>
+
+    <!-- FORM CARD -->
+    <div class="form-card">
+        <form id="regForm" onsubmit="return handleFormSubmit(event)">
+
+            <!-- FIRST NAME -->
+            <div class="field-group">
+                <label for="fname">First Name</label>
+                <div class="input-wrap">
+                    <input type="text" id="fname" placeholder="Alphabets only (e.g. Sridinesh)" oninput="validateField('fname')">
+                    <span class="status-icon" id="fname-icon"></span>
+                </div>
+                <div class="field-error-msg" id="fname-msg">Only alphabetic letters (A-Z, a-z) are allowed.</div>
+            </div>
+
+            <!-- LAST NAME -->
+            <div class="field-group">
+                <label for="lname">Last Name</label>
+                <div class="input-wrap">
+                    <input type="text" id="lname" placeholder="Alphabets only (e.g. Sharma)" oninput="validateField('lname')">
+                    <span class="status-icon" id="lname-icon"></span>
+                </div>
+                <div class="field-error-msg" id="lname-msg">Only alphabetic letters (A-Z, a-z) are allowed.</div>
+            </div>
+
+            <!-- USERNAME -->
+            <div class="field-group">
+                <label for="uname">Username</label>
+                <div class="input-wrap">
+                    <input type="text" id="uname" placeholder="Must start with a letter (e.g. sri_dinesh)" oninput="validateField('uname')">
+                    <span class="status-icon" id="uname-icon"></span>
+                </div>
+                <div class="field-error-msg" id="uname-msg">Must start with a letter and contain 4-20 letters/numbers/dots.</div>
+            </div>
+
+            <!-- EMAIL ADDRESS -->
+            <div class="field-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrap">
+                    <input type="email" id="email" placeholder="name@domain.com" oninput="validateField('email')">
+                    <span class="status-icon" id="email-icon"></span>
+                </div>
+                <div class="field-error-msg" id="email-msg">Enter a valid email format (e.g. user@example.com).</div>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="field-group">
+                <label for="pwd">Password</label>
+                <div class="input-wrap">
+                    <input type="password" id="pwd" placeholder="Min 8 chars, uppercase, number & symbol" oninput="validatePassword()">
+                    <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('pwd', this)">👁</button>
+                    <span class="status-icon" id="pwd-icon"></span>
+                </div>
+                
+                <!-- Password Strength Meter -->
+                <div class="strength-container" id="strength-box">
+                    <div class="strength-bar-bg">
+                        <div class="strength-bar-fill" id="strength-fill"></div>
+                    </div>
+                    <span class="strength-text" id="strength-text">Password Strength</span>
+                </div>
+
+                <!-- Requirement Checklist -->
+                <div class="req-list">
+                    <div class="req-item" id="req-len">○ Min 8 characters</div>
+                    <div class="req-item" id="req-upper">○ 1+ Uppercase letter</div>
+                    <div class="req-item" id="req-num">○ 1+ Numeric digit</div>
+                    <div class="req-item" id="req-sym">○ 1+ Special character (@#$%^&+=)</div>
+                </div>
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+            <div class="field-group">
+                <label for="cpwd">Confirm Password</label>
+                <div class="input-wrap">
+                    <input type="password" id="cpwd" placeholder="Re-enter matching password" oninput="validateConfirmPassword()">
+                    <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('cpwd', this)">👁</button>
+                    <span class="status-icon" id="cpwd-icon"></span>
+                </div>
+                <div class="field-error-msg" id="cpwd-msg">Passwords do not match.</div>
+            </div>
+
+            <!-- MOBILE NUMBER -->
+            <div class="field-group">
+                <label for="mobile">Mobile Number (India)</label>
+                <div class="input-wrap">
+                    <input type="text" id="mobile" placeholder="10-digit number starting with 6, 7, 8 or 9" oninput="validateField('mobile')">
+                    <span class="status-icon" id="mobile-icon"></span>
+                </div>
+                <div class="field-error-msg" id="mobile-msg">Enter a valid 10-digit Indian mobile number starting with 6-9.</div>
+            </div>
+
+            <!-- GENDER -->
+            <div class="field-group">
+                <label>Gender</label>
+                <div class="radio-pills">
+                    <div class="radio-option">
+                        <input type="radio" id="g-male" name="gender" value="male" checked>
+                        <label for="g-male">👨 Male</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="g-female" name="gender" value="female">
+                        <label for="g-female">👩 Female</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="g-other" name="gender" value="other">
+                        <label for="g-other">🧑 Other</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Complete Account Registration →</button>
+        </form>
+
+        <div class="success-box" id="successBox">
+            <div class="title">🎉 Account Created Successfully!</div>
+            <div class="sub">All fields passed strict client-side regular expression validation.</div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        Web Technologies Lab · S Sridinesh (25885A0549) · Vardhaman College of Engineering
+    </footer>
+</div>
+
+<script>
+    const rules = {
+        fname:  { re: /^[A-Za-z]+$/,                 msg: 'Only alphabetic letters are allowed.' },
+        lname:  { re: /^[A-Za-z]+$/,                 msg: 'Only alphabetic letters are allowed.' },
+        uname:  { re: /^[a-zA-Z][a-zA-Z0-9._]{3,19}$/, msg: 'Must start with a letter and be 4-20 alphanumeric chars.' },
+        email:  { re: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, msg: 'Enter a valid email address.' },
+        mobile: { re: /^[6-9]\d{9}$/,                msg: 'Enter a valid 10-digit mobile number starting with 6-9.' }
+    };
+
+    function validateField(id) {
+        const input = document.getElementById(id);
+        const icon = document.getElementById(id + '-icon');
+        const msg = document.getElementById(id + '-msg');
+        const rule = rules[id];
+
+        if (!rule) return true;
+
+        const val = input.value.trim();
+        if (val === '') {
+            input.classList.remove('valid', 'invalid');
+            icon.style.display = 'none';
+            msg.style.display = 'none';
+            return false;
+        }
+
+        const isValid = rule.re.test(val);
+        icon.style.display = 'block';
+
+        if (isValid) {
+            input.classList.add('valid');
+            input.classList.remove('invalid');
+            icon.textContent = '✓';
+            icon.style.color = '#10b981';
+            msg.style.display = 'none';
+            return true;
+        } else {
+            input.classList.add('invalid');
+            input.classList.remove('valid');
+            icon.textContent = '✗';
+            icon.style.color = '#e11d48';
+            msg.style.display = 'block';
+            return false;
+        }
+    }
+
+    function validatePassword() {
+        const input = document.getElementById('pwd');
+        const val = input.value;
+        const strengthBox = document.getElementById('strength-box');
+        const fill = document.getElementById('strength-fill');
+        const text = document.getElementById('strength-text');
+        const icon = document.getElementById('pwd-icon');
+
+        if (val.length > 0) {
+            strengthBox.style.display = 'block';
+        } else {
+            strengthBox.style.display = 'none';
+            input.classList.remove('valid', 'invalid');
+            icon.style.display = 'none';
+            return false;
+        }
+
+        const hasLen   = val.length >= 8;
+        const hasUpper = /[A-Z]/.test(val);
+        const hasNum   = /[0-9]/.test(val);
+        const hasSym   = /[@#$%^&+=!]/.test(val);
+
+        updateReqItem('req-len', hasLen);
+        updateReqItem('req-upper', hasUpper);
+        updateReqItem('req-num', hasNum);
+        updateReqItem('req-sym', hasSym);
+
+        let score = 0;
+        if (hasLen) score++;
+        if (hasUpper) score++;
+        if (hasNum) score++;
+        if (hasSym) score++;
+
+        icon.style.display = 'block';
+        if (score <= 1) {
+            fill.style.width = '25%';
+            fill.style.backgroundColor = '#ef4444';
+            text.textContent = 'Strength: Weak';
+            text.style.color = '#ef4444';
+        } else if (score === 2 || score === 3) {
+            fill.style.width = '60%';
+            fill.style.backgroundColor = '#f59e0b';
+            text.textContent = 'Strength: Moderate';
+            text.style.color = '#f59e0b';
+        } else if (score === 4) {
+            fill.style.width = '100%';
+            fill.style.backgroundColor = '#10b981';
+            text.textContent = 'Strength: Strong';
+            text.style.color = '#10b981';
+        }
+
+        const isValid = (score === 4);
+        if (isValid) {
+            input.classList.add('valid');
+            input.classList.remove('invalid');
+            icon.textContent = '✓';
+            icon.style.color = '#10b981';
+        } else {
+            input.classList.add('invalid');
+            input.classList.remove('valid');
+            icon.textContent = '✗';
+            icon.style.color = '#e11d48';
+        }
+
+        validateConfirmPassword();
+        return isValid;
+    }
+
+    function updateReqItem(id, isMet) {
+        const el = document.getElementById(id);
+        if (isMet) {
+            el.classList.add('met');
+            el.innerHTML = '● ' + el.textContent.substring(2);
+        } else {
+            el.classList.remove('met');
+            el.innerHTML = '○ ' + el.textContent.substring(2);
+        }
+    }
+
+    function validateConfirmPassword() {
+        const pwd = document.getElementById('pwd').value;
+        const cpwdInput = document.getElementById('cpwd');
+        const icon = document.getElementById('cpwd-icon');
+        const msg = document.getElementById('cpwd-msg');
+
+        if (cpwdInput.value === '') {
+            cpwdInput.classList.remove('valid', 'invalid');
+            icon.style.display = 'none';
+            msg.style.display = 'none';
+            return false;
+        }
+
+        icon.style.display = 'block';
+        if (cpwdInput.value === pwd && pwd !== '') {
+            cpwdInput.classList.add('valid');
+            cpwdInput.classList.remove('invalid');
+            icon.textContent = '✓';
+            icon.style.color = '#10b981';
+            msg.style.display = 'none';
+            return true;
+        } else {
+            cpwdInput.classList.add('invalid');
+            cpwdInput.classList.remove('valid');
+            icon.textContent = '✗';
+            icon.style.color = '#e11d48';
+            msg.style.display = 'block';
+            return false;
+        }
+    }
+
+    function togglePasswordVisibility(fieldId, btn) {
+        const input = document.getElementById(fieldId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            btn.textContent = '🙈';
+        } else {
+            input.type = 'password';
+            btn.textContent = '👁';
+        }
+    }
+
+    function handleFormSubmit(e) {
+        e.preventDefault();
+
+        const f1 = validateField('fname');
+        const f2 = validateField('lname');
+        const f3 = validateField('uname');
+        const f4 = validateField('email');
+        const f5 = validatePassword();
+        const f6 = validateConfirmPassword();
+        const f7 = validateField('mobile');
+
+        if (f1 && f2 && f3 && f4 && f5 && f6 && f7) {
+            document.getElementById('successBox').style.display = 'block';
+            document.getElementById('successBox').scrollIntoView({ behavior: 'smooth' });
+        } else {
+            alert('Please correct the highlighted fields before submitting.');
+        }
+
+        return false;
+    }
+</script>
+
+</body>
+</html>

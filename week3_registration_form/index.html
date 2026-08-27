@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Registration Form — Week 03</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --surface: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #94a3b8;
+            --border-color: #e2e8f0;
+            --purple-primary: #7c3aed;
+            --purple-light: #faf5ff;
+            --purple-border: #e9d5ff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+            --shadow-card: 0 20px 25px -5px rgba(124, 58, 237, 0.08), 0 8px 10px -6px rgba(124, 58, 237, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: radial-gradient(at 10% 10%, rgba(124, 58, 237, 0.06) 0px, transparent 50%),
+                              radial-gradient(at 90% 90%, rgba(192, 38, 211, 0.04) 0px, transparent 50%);
+        }
+
+        .wrap {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 clamp(20px, 4vw, 32px);
+        }
+
+        /* ═══════════════════════════════════════════
+           TOPBAR
+           ═══════════════════════════════════════════ */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--purple-primary);
+            text-decoration: none;
+            padding: 8px 16px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-3px);
+            border-color: var(--purple-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .meta-badge {
+            font-size: 0.82rem;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 100px;
+            box-shadow: var(--shadow-sm);
+            color: var(--text-secondary);
+        }
+
+        .meta-badge strong {
+            color: var(--text-primary);
+        }
+
+        /* ═══════════════════════════════════════════
+           HERO
+           ═══════════════════════════════════════════ */
+        .hero {
+            padding: 40px 0 32px;
+            text-align: center;
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--purple-primary);
+            background: var(--purple-light);
+            border: 1px solid var(--purple-border);
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 3.5vw, 2.6rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* ═══════════════════════════════════════════
+           FORM CARD
+           ═══════════════════════════════════════════ */
+        .form-card {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: var(--shadow-card);
+            padding: clamp(28px, 5vw, 44px);
+            margin-bottom: 56px;
+        }
+
+        .form-section-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--purple-primary);
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--purple-border);
+        }
+
+        .field-group {
+            margin-bottom: 22px;
+        }
+
+        .field-group label {
+            display: block;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .field-group label .req {
+            color: #e11d48;
+            margin-left: 2px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-family: inherit;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--purple-primary);
+            box-shadow: 0 0 0 3.5px rgba(124, 58, 237, 0.12);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .field-hint {
+            font-size: 0.74rem;
+            color: var(--text-tertiary);
+            margin-top: 6px;
+        }
+
+        /* ── Radio Toggle Cards ── */
+        .radio-pills {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .radio-option {
+            position: relative;
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .radio-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 11px 12px;
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            background: var(--purple-light);
+            border-color: var(--purple-primary);
+            color: var(--purple-primary);
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.15);
+        }
+
+        /* ── File Upload Box ── */
+        .file-upload-box {
+            border: 2px dashed var(--purple-border);
+            background: var(--purple-light);
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .file-upload-box:hover {
+            border-color: var(--purple-primary);
+            background: #f5edff;
+        }
+
+        .file-upload-box input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+            color: var(--purple-primary);
+        }
+
+        .upload-text {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--purple-primary);
+        }
+
+        .upload-subtext {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ── Form Actions ── */
+        .action-buttons {
+            display: flex;
+            gap: 14px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            flex: 1;
+            padding: 13px 20px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-submit:hover {
+            opacity: 0.94;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-reset {
+            background: #ffffff;
+            color: var(--text-secondary);
+            border: 1.5px solid var(--border-color);
+        }
+
+        .btn-reset:hover {
+            background: #f8fafc;
+            color: var(--text-primary);
+            border-color: var(--text-tertiary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px 0 40px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <a class="back-link" href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            <span>All Lab Programs</span>
+        </a>
+        <div class="meta-badge">
+            <strong>S Sridinesh</strong> · Week 03
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-pill">📋 Week 03 · HTML5 Form Design</div>
+        <h1>Candidate Registration</h1>
+        <p>Complete the application below with your personal and professional profile details.</p>
+    </section>
+
+    <!-- REGISTRATION FORM CARD -->
+    <div class="form-card">
+        <form action="success.html" method="GET">
+            <div class="form-section-title">Personal Information</div>
+
+            <!-- FULL NAME -->
+            <div class="field-group">
+                <label for="name">Full Legal Name <span class="req">*</span></label>
+                <input type="text" id="name" name="name" placeholder="e.g. Sridinesh S" required>
+            </div>
+
+            <!-- GENDER RADIO -->
+            <div class="field-group">
+                <label>Gender <span class="req">*</span></label>
+                <div class="radio-pills">
+                    <div class="radio-option">
+                        <input type="radio" id="gender-male" name="gender" value="male" required>
+                        <label for="gender-male">👨 Male</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="gender-female" name="gender" value="female">
+                        <label for="gender-female">👩 Female</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="gender-other" name="gender" value="other">
+                        <label for="gender-other">🧑 Other</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LANGUAGES KNOWN -->
+            <div class="field-group">
+                <label for="languages">Languages Known <span class="req">*</span></label>
+                <input type="text" id="languages" name="languages" placeholder="e.g. English, Telugu, Hindi" required>
+                <div class="field-hint">Separate multiple languages with commas</div>
+            </div>
+
+            <div class="form-section-title" style="margin-top: 32px;">Contact &amp; Location</div>
+
+            <!-- EMAIL -->
+            <div class="field-group">
+                <label for="email">Email Address <span class="req">*</span></label>
+                <input type="email" id="email" name="email" placeholder="name@example.com" required>
+            </div>
+
+            <!-- CONTACT NUMBER -->
+            <div class="field-group">
+                <label for="phone">Contact Number <span class="req">*</span></label>
+                <input type="text" id="phone" name="phone" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" required>
+                <div class="field-hint">Must be a valid 10-digit Indian mobile number</div>
+            </div>
+
+            <!-- RESIDENTIAL ADDRESS -->
+            <div class="field-group">
+                <label for="address">Residential Address <span class="req">*</span></label>
+                <textarea id="address" name="address" placeholder="Enter complete residential address with PIN code" required></textarea>
+            </div>
+
+            <!-- PREFERRED LOCATION -->
+            <div class="field-group">
+                <label for="location">Preferred Work Location <span class="req">*</span></label>
+                <select id="location" name="location" required>
+                    <option value="" disabled selected>Choose preferred job city</option>
+                    <option value="Hyderabad">Hyderabad, Telangana</option>
+                    <option value="Bengaluru">Bengaluru, Karnataka</option>
+                    <option value="Pune">Pune, Maharashtra</option>
+                    <option value="Chennai">Chennai, Tamil Nadu</option>
+                    <option value="Delhi-NCR">Delhi NCR</option>
+                    <option value="Remote">Remote / Work from Home</option>
+                </select>
+            </div>
+
+            <div class="form-section-title" style="margin-top: 32px;">Resume &amp; Credentials</div>
+
+            <!-- CV UPLOAD -->
+            <div class="field-group">
+                <label>Upload Curriculum Vitae (CV) <span class="req">*</span></label>
+                <div class="file-upload-box">
+                    <input type="file" name="cv" accept=".pdf,.doc,.docx" required>
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Click or drag &amp; drop your resume here</div>
+                    <div class="upload-subtext">Supported formats: PDF, DOC, DOCX (Max size: 5 MB)</div>
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="action-buttons">
+                <button type="reset" class="btn btn-reset">Clear Form</button>
+                <button type="submit" class="btn btn-submit">Submit Application →</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        Web Technologies Lab · S Sridinesh (25885A0549) · Vardhaman College of Engineering
+    </footer>
+</div>
+
+</body>
+</html>

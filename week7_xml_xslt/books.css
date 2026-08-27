@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@600&display=swap');
+
+catalog {
+    display: block;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    max-width: 760px;
+    margin: 48px auto;
+    padding: 0 20px;
+    background-color: #f8fafc;
+    color: #0f172a;
+    line-height: 1.6;
+}
+
+catalog::before {
+    content: "📚 Academic Library Catalog · Week 07 XML Styling";
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #0f172a;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+book {
+    display: block;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+book:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+    border-color: #cbd5e1;
+}
+
+book[course]::before {
+    content: "Course: " attr(course);
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+}
+
+book[course="cse"]::before {
+    background: #eef2ff;
+    color: #4f46e5;
+    border: 1px solid #c7d2fe;
+}
+
+book[course="ece"]::before {
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+}
+
+title {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+author {
+    display: block;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 4px;
+}
+
+author::before {
+    content: "By ";
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+publisher {
+    display: block;
+    font-size: 0.82rem;
+    color: #64748b;
+    margin-bottom: 16px;
+}
+
+publisher::before {
+    content: "Publisher: ";
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+pages {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #475569;
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-right: 10px;
+}
+
+pages::after {
+    content: " Pages";
+}
+
+price {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0f172a;
+    font-family: 'Fira Code', monospace;
+}
+
+price::before {
+    content: "₹ ";
+    color: #0d9488;
+    font-weight: 800;
+}
+
+catalog::after {
+    content: "WTS Lab · S Sridinesh (25885A0549) · Vardhaman College of Engineering";
+    display: block;
+    text-align: center;
+    font-size: 0.78rem;
+    color: #94a3b8;
+    margin-top: 36px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}

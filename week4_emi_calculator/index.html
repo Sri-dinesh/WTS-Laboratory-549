@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Loan EMI Calculator — Week 04</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --surface: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #94a3b8;
+            --border-color: #e2e8f0;
+            --amber-primary: #d97706;
+            --amber-light: #fffbeb;
+            --amber-border: #fde68a;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+            --shadow-card: 0 20px 25px -5px rgba(217, 119, 6, 0.08), 0 8px 10px -6px rgba(217, 119, 6, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: radial-gradient(at 10% 10%, rgba(217, 119, 6, 0.06) 0px, transparent 50%),
+                              radial-gradient(at 90% 90%, rgba(245, 158, 11, 0.04) 0px, transparent 50%);
+        }
+
+        .wrap {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 clamp(20px, 4vw, 32px);
+        }
+
+        /* ═══════════════════════════════════════════
+           TOPBAR
+           ═══════════════════════════════════════════ */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--amber-primary);
+            text-decoration: none;
+            padding: 8px 16px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-3px);
+            border-color: var(--amber-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .meta-badge {
+            font-size: 0.82rem;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 100px;
+            box-shadow: var(--shadow-sm);
+            color: var(--text-secondary);
+        }
+
+        .meta-badge strong {
+            color: var(--text-primary);
+        }
+
+        /* ═══════════════════════════════════════════
+           HERO
+           ═══════════════════════════════════════════ */
+        .hero {
+            padding: 40px 0 28px;
+            text-align: center;
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--amber-primary);
+            background: var(--amber-light);
+            border: 1px solid var(--amber-border);
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 3.5vw, 2.6rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* ═══════════════════════════════════════════
+           PRESET PILLS
+           ═════════════════════════════════════ */
+        .presets-wrap {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .preset-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .preset-btn:hover {
+            border-color: var(--amber-primary);
+            color: var(--amber-primary);
+            background: var(--amber-light);
+        }
+
+        /* ═══════════════════════════════════════════
+           CALCULATOR CARD
+           ═══════════════════════════════════════════ */
+        .calc-card {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: var(--shadow-card);
+            padding: clamp(28px, 5vw, 40px);
+            margin-bottom: 40px;
+        }
+
+        .field-group {
+            margin-bottom: 24px;
+        }
+
+        .field-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .field-header label {
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .input-box-wrap {
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px 14px;
+            transition: all 0.2s ease;
+            max-width: 180px;
+        }
+
+        .input-box-wrap:focus-within {
+            border-color: var(--amber-primary);
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+            background: #ffffff;
+        }
+
+        .input-prefix {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-tertiary);
+            margin-right: 6px;
+        }
+
+        .input-box-wrap input[type="number"] {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: inherit;
+            color: var(--text-primary);
+            outline: none;
+            text-align: right;
+        }
+
+        /* ── Range Slider ── */
+        .slider-wrap {
+            margin-top: 10px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 6px;
+            background: #e2e8f0;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--amber-primary);
+            border: 3px solid #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .slider-bounds {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+
+        .btn-calc {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #d97706 0%, #ea580c 100%);
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .btn-calc:hover {
+            opacity: 0.94;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(217, 119, 6, 0.4);
+        }
+
+        /* ═══════════════════════════════════════════
+           RESULTS BREAKDOWN
+           ═══════════════════════════════════════════ */
+        .results-box {
+            margin-top: 28px;
+            padding: 24px;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+        }
+
+        .emi-hero-card {
+            text-align: center;
+            background: #ffffff;
+            border: 1.5px solid var(--amber-border);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .emi-hero-card .label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--amber-primary);
+            margin-bottom: 6px;
+        }
+
+        .emi-hero-card .val {
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .mini-stat-box {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .mini-stat-box .stat-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .mini-stat-box .stat-val {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* ── Ratio Bar ── */
+        .ratio-bar-wrap {
+            margin-top: 12px;
+        }
+
+        .ratio-bar-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.74rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .ratio-bar {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 100px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .bar-principal {
+            background: #0284c7;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .bar-interest {
+            background: #d97706;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px 0 40px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <a class="back-link" href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            <span>All Lab Programs</span>
+        </a>
+        <div class="meta-badge">
+            <strong>S Sridinesh</strong> · Week 04
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-pill">₹ Week 04 · JavaScript DOM &amp; Math</div>
+        <h1>Loan EMI Calculator</h1>
+        <p>Calculate your monthly installments, total interest, and comprehensive loan schedule in real-time.</p>
+    </section>
+
+    <!-- QUICK PRESETS -->
+    <div class="presets-wrap">
+        <button class="preset-btn" onclick="applyPreset(3500000, 8.5, 20)">🏠 Home Loan (₹35L @ 8.5%, 20y)</button>
+        <button class="preset-btn" onclick="applyPreset(1000000, 9.0, 5)">🚗 Car Loan (₹10L @ 9.0%, 5y)</button>
+        <button class="preset-btn" onclick="applyPreset(300000, 12.5, 3)">💳 Personal Loan (₹3L @ 12.5%, 3y)</button>
+    </div>
+
+    <!-- CALCULATOR CARD -->
+    <div class="calc-card">
+        <!-- LOAN AMOUNT -->
+        <div class="field-group">
+            <div class="field-header">
+                <label for="amount">Loan Principal Amount</label>
+                <div class="input-box-wrap">
+                    <span class="input-prefix">₹</span>
+                    <input type="number" id="amount" value="500000" min="10000" max="10000000" step="10000" oninput="syncAmount(this.value)">
+                </div>
+            </div>
+            <div class="slider-wrap">
+                <input type="range" id="amount-range" value="500000" min="50000" max="10000000" step="50000" oninput="syncAmountRange(this.value)">
+                <div class="slider-bounds">
+                    <span>₹50K</span>
+                    <span>₹50 Lakhs</span>
+                    <span>₹1 Crore</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTEREST RATE -->
+        <div class="field-group">
+            <div class="field-header">
+                <label for="rate">Annual Interest Rate (% p.a.)</label>
+                <div class="input-box-wrap">
+                    <input type="number" id="rate" value="8.5" min="1" max="25" step="0.1" oninput="syncRate(this.value)">
+                    <span class="input-prefix" style="margin-right:0; margin-left:6px;">%</span>
+                </div>
+            </div>
+            <div class="slider-wrap">
+                <input type="range" id="rate-range" value="8.5" min="1" max="20" step="0.1" oninput="syncRateRange(this.value)">
+                <div class="slider-bounds">
+                    <span>1%</span>
+                    <span>10%</span>
+                    <span>20%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOAN TENURE -->
+        <div class="field-group">
+            <div class="field-header">
+                <label for="tenure">Loan Tenure (Years)</label>
+                <div class="input-box-wrap">
+                    <input type="number" id="tenure" value="5" min="1" max="30" step="1" oninput="syncTenure(this.value)">
+                    <span class="input-prefix" style="margin-right:0; margin-left:6px;">Yr</span>
+                </div>
+            </div>
+            <div class="slider-wrap">
+                <input type="range" id="tenure-range" value="5" min="1" max="30" step="1" oninput="syncTenureRange(this.value)">
+                <div class="slider-bounds">
+                    <span>1 Year</span>
+                    <span>15 Years</span>
+                    <span>30 Years</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-calc" onclick="calculateEMI()">Recalculate EMI Schedule</button>
+
+        <!-- RESULTS -->
+        <div class="results-box" id="results-box">
+            <div class="emi-hero-card">
+                <div class="label">Monthly Equated Installment (EMI)</div>
+                <div class="val" id="emi-val">₹ 10,258.28</div>
+            </div>
+
+            <div class="breakdown-grid">
+                <div class="mini-stat-box">
+                    <div class="stat-label">Total Interest</div>
+                    <div class="stat-val" id="total-interest" style="color: #d97706;">₹ 1,15,497</div>
+                </div>
+                <div class="mini-stat-box">
+                    <div class="stat-label">Total Payment</div>
+                    <div class="stat-val" id="total-payment" style="color: #0f172a;">₹ 6,15,497</div>
+                </div>
+            </div>
+
+            <div class="ratio-bar-wrap">
+                <div class="ratio-bar-labels">
+                    <span style="color: #0284c7;">● Principal (<span id="principal-percent">81%</span>)</span>
+                    <span style="color: #d97706;">● Total Interest (<span id="interest-percent">19%</span>)</span>
+                </div>
+                <div class="ratio-bar">
+                    <div class="bar-principal" id="bar-principal" style="width: 81%;"></div>
+                    <div class="bar-interest" id="bar-interest" style="width: 19%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        Web Technologies Lab · S Sridinesh (25885A0549) · Vardhaman College of Engineering
+    </footer>
+</div>
+
+<script>
+    function syncAmount(val) {
+        document.getElementById('amount-range').value = val;
+        calculateEMI();
+    }
+    function syncAmountRange(val) {
+        document.getElementById('amount').value = val;
+        calculateEMI();
+    }
+    function syncRate(val) {
+        document.getElementById('rate-range').value = val;
+        calculateEMI();
+    }
+    function syncRateRange(val) {
+        document.getElementById('rate').value = val;
+        calculateEMI();
+    }
+    function syncTenure(val) {
+        document.getElementById('tenure-range').value = val;
+        calculateEMI();
+    }
+    function syncTenureRange(val) {
+        document.getElementById('tenure').value = val;
+        calculateEMI();
+    }
+
+    function applyPreset(p, r, t) {
+        document.getElementById('amount').value = p;
+        document.getElementById('amount-range').value = p;
+        document.getElementById('rate').value = r;
+        document.getElementById('rate-range').value = r;
+        document.getElementById('tenure').value = t;
+        document.getElementById('tenure-range').value = t;
+        calculateEMI();
+    }
+
+    function calculateEMI() {
+        const P = parseFloat(document.getElementById('amount').value);
+        const annualRate = parseFloat(document.getElementById('rate').value);
+        const years = parseFloat(document.getElementById('tenure').value);
+
+        if (!P || !annualRate || !years || P <= 0 || annualRate <= 0 || years <= 0) return;
+
+        const R = annualRate / 12 / 100;
+        const N = years * 12;
+
+        const emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+        const totalPayment = emi * N;
+        const totalInterest = totalPayment - P;
+
+        const principalPct = Math.round((P / totalPayment) * 100);
+        const interestPct = 100 - principalPct;
+
+        document.getElementById('emi-val').textContent = '₹ ' + emi.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('total-interest').textContent = '₹ ' + Math.round(totalInterest).toLocaleString('en-IN');
+        document.getElementById('total-payment').textContent = '₹ ' + Math.round(totalPayment).toLocaleString('en-IN');
+
+        document.getElementById('principal-percent').textContent = principalPct + '%';
+        document.getElementById('interest-percent').textContent = interestPct + '%';
+        document.getElementById('bar-principal').style.width = principalPct + '%';
+        document.getElementById('bar-interest').style.width = interestPct + '%';
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', calculateEMI);
+</script>
+
+</body>
+</html>

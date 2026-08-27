@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Technologies Lab — S Sridinesh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --surface: #ffffff;
+            --surface-hover: #fbfcfe;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #94a3b8;
+            --border-subtle: #e2e8f0;
+            --border-highlight: #cbd5e1;
+            
+            /* Colorful Accent Tokens */
+            --indigo-primary: #4f46e5;
+            --indigo-light: #eef2ff;
+            --indigo-glow: rgba(79, 70, 229, 0.15);
+            
+            --blue-accent: #0284c7;
+            --blue-bg: #f0f9ff;
+            --blue-border: #bae6fd;
+            
+            --teal-accent: #0d9488;
+            --teal-bg: #f0fdfa;
+            --teal-border: #99f6e4;
+            
+            --purple-accent: #7c3aed;
+            --purple-bg: #faf5ff;
+            --purple-border: #e9d5ff;
+            
+            --amber-accent: #d97706;
+            --amber-bg: #fffbeb;
+            --amber-border: #fde68a;
+            
+            --rose-accent: #e11d48;
+            --rose-bg: #fff1f2;
+            --rose-border: #fecdd3;
+            
+            --orange-accent: #ea580c;
+            --orange-bg: #fff7ed;
+            --orange-border: #fed7aa;
+            
+            --cyan-accent: #0891b2;
+            --cyan-bg: #ecfeff;
+            --cyan-border: #a5f3fc;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+            --shadow-card-hover: 0 20px 35px -10px rgba(79, 70, 229, 0.12), 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.06) 0px, transparent 50%),
+                radial-gradient(at 90% 20%, rgba(14, 165, 233, 0.06) 0px, transparent 50%),
+                radial-gradient(at 50% 80%, rgba(236, 72, 153, 0.04) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* ═══════════════════════════════════════════
+           NAVBAR / TOP HEADER
+           ═══════════════════════════════════════════ */
+        .navbar-wrap {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .navbar {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+        }
+
+        .brand-details h1 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .brand-details span {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        .nav-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .student-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            padding: 6px 14px 6px 8px;
+            border-radius: 100px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .student-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .student-info {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .student-roll {
+            font-size: 0.72rem;
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        /* ═══════════════════════════════════════════
+           HERO SECTION
+           ═══════════════════════════════════════════ */
+        .hero {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 64px 24px 48px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: var(--indigo-light);
+            border: 1px solid rgba(79, 70, 229, 0.2);
+            border-radius: 100px;
+            color: var(--indigo-primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .hero-badge .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        .hero-title {
+            font-size: clamp(2.4rem, 5vw, 4.2rem);
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            line-height: 1.1;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .hero-title .gradient-text {
+            background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            max-width: 680px;
+            margin: 0 auto 36px;
+            font-size: clamp(1rem, 1.2vw, 1.15rem);
+            color: var(--text-secondary);
+            font-weight: 400;
+            line-height: 1.65;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            max-width: 840px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 18px 16px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-highlight);
+        }
+
+        .stat-card .val {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--indigo-primary);
+            letter-spacing: -0.02em;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-card .lbl {
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-tertiary);
+        }
+
+        /* ═══════════════════════════════════════════
+           CATEGORY FILTER BAR
+           ═══════════════════════════════════════════ */
+        .filter-bar-wrap {
+            max-width: 1280px;
+            margin: 32px auto 28px;
+            padding: 0 24px;
+        }
+
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            border: 1px solid var(--border-subtle);
+            background: #ffffff;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--border-highlight);
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.active {
+            background: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+
+        /* ═══════════════════════════════════════════
+           PROGRAMS GRID
+           ═══════════════════════════════════════════ */
+        .programs-section {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 28px;
+        }
+
+        .program-card {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-accent, #4f46e5);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-card-hover);
+            border-color: rgba(79, 70, 229, 0.25);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .card-icon-wrap {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: var(--card-bg, #eef2ff);
+            border: 1px solid var(--card-border, #e0e7ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--card-accent, #4f46e5);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .week-pill {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 12px;
+            border-radius: 100px;
+            background: var(--card-bg, #f1f5f9);
+            color: var(--card-accent, #475569);
+            border: 1px solid var(--card-border, #e2e8f0);
+        }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .card-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .card-tag {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .btn-launch {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            background: var(--card-accent, #4f46e5);
+            color: #ffffff;
+            font-size: 0.86rem;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 12px var(--card-glow, rgba(79, 70, 229, 0.25));
+            transition: all 0.2s ease;
+        }
+
+        .btn-launch:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px var(--card-glow, rgba(79, 70, 229, 0.35));
+        }
+
+        .btn-launch svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-launch:hover svg {
+            transform: translateX(3px);
+        }
+
+        .card-subtext {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        /* ── Individual Card Colors ── */
+        .card-w1 {
+            --card-accent: #0284c7;
+            --card-bg: #f0f9ff;
+            --card-border: #bae6fd;
+            --card-glow: rgba(2, 132, 199, 0.25);
+        }
+
+        .card-w2 {
+            --card-accent: #0d9488;
+            --card-bg: #f0fdfa;
+            --card-border: #99f6e4;
+            --card-glow: rgba(13, 148, 136, 0.25);
+        }
+
+        .card-w3 {
+            --card-accent: #7c3aed;
+            --card-bg: #faf5ff;
+            --card-border: #e9d5ff;
+            --card-glow: rgba(124, 58, 237, 0.25);
+        }
+
+        .card-w4 {
+            --card-accent: #d97706;
+            --card-bg: #fffbeb;
+            --card-border: #fde68a;
+            --card-glow: rgba(217, 119, 6, 0.25);
+        }
+
+        .card-w5 {
+            --card-accent: #e11d48;
+            --card-bg: #fff1f2;
+            --card-border: #fecdd3;
+            --card-glow: rgba(225, 29, 72, 0.25);
+        }
+
+        .card-w6 {
+            --card-accent: #ea580c;
+            --card-bg: #fff7ed;
+            --card-border: #fed7aa;
+            --card-glow: rgba(234, 88, 12, 0.25);
+        }
+
+        .card-w7 {
+            --card-accent: #0891b2;
+            --card-bg: #ecfeff;
+            --card-border: #a5f3fc;
+            --card-glow: rgba(8, 145, 178, 0.25);
+        }
+
+        /* ═══════════════════════════════════════════
+           TECH STACK PILL STRIP
+           ═══════════════════════════════════════════ */
+        .tech-section {
+            max-width: 1280px;
+            margin: 0 auto 60px;
+            padding: 0 24px;
+        }
+
+        .tech-box {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+
+        .tech-box h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-tertiary);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .tech-pills {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tech-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 100px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tech-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* ═══════════════════════════════════════════
+           FOOTER
+           ═══════════════════════════════════════════ */
+        .footer {
+            background: #ffffff;
+            border-top: 1px solid var(--border-subtle);
+            padding: 40px 24px;
+        }
+
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .footer-brand .title {
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--text-primary);
+        }
+
+        .footer-brand .sub {
+            font-size: 0.78rem;
+            color: var(--text-tertiary);
+        }
+
+        .footer-details {
+            text-align: right;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-details strong {
+            color: var(--text-primary);
+        }
+
+        /* ═══════════════════════════════════════════
+           RESPONSIVE BREAKPOINTS
+           ═══════════════════════════════════════════ */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            .nav-meta {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+            .footer-details {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar-wrap">
+        <div class="navbar">
+            <a href="#" class="brand-box">
+                <div class="brand-logo">&lt;/&gt;</div>
+                <div class="brand-details">
+                    <h1>WTS Laboratory Portal</h1>
+                    <span>Vardhaman College of Engineering · Autonomous</span>
+                </div>
+            </a>
+            <div class="nav-meta">
+                <div class="student-chip">
+                    <div class="student-avatar">SS</div>
+                    <div>
+                        <div class="student-info">S Sridinesh</div>
+                        <div class="student-roll">25885A0549 · CSE-G</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge">
+            <div class="pulse-dot"></div>
+            <span>VCE-R22 Curriculum · Course Code: A8605</span>
+        </div>
+
+        <h1 class="hero-title">
+            Modern Web Technologies<br>
+            <span class="gradient-text">Laboratory Showcase</span>
+        </h1>
+
+        <p class="hero-desc">
+            A comprehensive, clean, and interactive collection of weekly laboratory assignments covering semantic HTML5, framesets, responsive CSS3 styling, JavaScript DOM interactivity, regular expression validations, and XML schema definitions.
+        </p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="val">07</div>
+                <div class="lbl">Lab Programs</div>
+            </div>
+            <div class="stat-card">
+                <div class="val">06+</div>
+                <div class="lbl">Technologies</div>
+            </div>
+            <div class="stat-card">
+                <div class="val">100%</div>
+                <div class="lbl">Responsive</div>
+            </div>
+            <div class="stat-card">
+                <div class="val">CO-1</div>
+                <div class="lbl">Course Outcome</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar-wrap">
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterCards('all', this)">All Programs (7)</button>
+            <button class="filter-btn" onclick="filterCards('html-css', this)">HTML &amp; CSS</button>
+            <button class="filter-btn" onclick="filterCards('js', this)">JavaScript &amp; DOM</button>
+            <button class="filter-btn" onclick="filterCards('xml', this)">XML &amp; Schema</button>
+        </div>
+    </div>
+
+    <!-- PROGRAMS GRID -->
+    <main class="programs-section">
+        <div class="programs-grid">
+
+            <!-- WEEK 1 -->
+            <div class="program-card card-w1" data-category="html-css">
+                <div>
+                    <div class="card-top">
+                        <div class="card-icon-wrap">📱</div>
+                        <span class="week-pill">Week 01</span>
+                    </div>
+                    <h2 class="card-title">Mobile Store Portal</h2>
+                    <p class="card-desc">
+                        Interactive e-commerce catalog featuring product tables, high-resolution device photos, hardware specifications, pricing badges, and dedicated sub-pages.
+                    </p>
+                    <div class="card-tags">
+                        <span class="card-tag">HTML5</span>
+                        <span class="card-tag">Tables</span>
+                        <span class="card-tag">Lists</span>
+                        <span class="card-tag">Hyperlinks</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="card-subtext">3 Linked Pages</span>
+                    <a href="week1_mobile_store/index.html" class="btn-launch">
+                        <span>Launch App</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- WEEK 2 -->
+            <div class="program-card card-w2" data-category="html-css">
+                <div>
+                    <div class="card-top">
+                        <div class="card-icon-wrap">◧</div>
+                        <span class="week-pill">Week 02</span>
+                    </div>
+                    <h2 class="card-title">Nested Frames &amp; CSS</h2>
+                    <p class="card-desc">
+                        Multi-frame college portal featuring a dynamic marquee header, side navigation drawer, and dynamic content target frame utilizing inline, embedded, and external CSS.
+                    </p>
+                    <div class="card-tags">
+                        <span class="card-tag">Frameset</span>
+                        <span class="card-tag">External CSS</span>
+                        <span class="card-tag">Marquee</span>
+                        <span class="card-tag">Navigation</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="card-subtext">8 Frame Modules</span>
+                    <a href="week2_frames_css/home.html" class="btn-launch">
+                        <span>Launch App</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- WEEK 3 -->
+            <div class="program-card card-w3" data-category="html-css">
+                <div>
+                    <div class="card-top">
+                        <div class="card-icon-wrap">📋</div>
+                        <span class="week-pill">Week 03</span>
+                    </div>
+                    <h2 class="card-title">Job Registration Form</h2>
+                    <p class="card-desc">
+                        Comprehensive employment application form with custom radio inputs, language selection, contact validation fields, dropdowns, and styled file upload.
+                    </p>
+                    <div class="card-tags">
+                        <span class="card-tag">Forms</span>
+                        <span class="card-tag">Inputs</span>
+                        <span class="card-tag">File Upload</span>
+                        <span class="card-tag">Form Controls</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="card-subtext">Form + Success View</span>
+                    <a href="week3_registration_form/index.html" class="btn-launch">
+                        <span>Launch App</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- WEEK 4 -->
+            <div class="program-card card-w4" data-category="js">
+                <div>
+                    <div class="card-top">
+                        <div class="card-icon-wrap">₹</div>
+                        <span class="week-pill">Week 04</span>
+                    </div>
+                    <h2 class="card-title">Bank Loan EMI Calculator</h2>
+                    <p class="card-desc">
+                        Financial loan calculator using JavaScript Math algorithms, interactive range sliders, real-time recalculation, and a visual principal vs. interest breakdown.
+                    </p>
+                    <div class="card-tags">
+                        <span class="card-tag">JavaScript</span>
+                        <span class="card-tag">Math Formula</span>
+                        <span class="card-tag">DOM Events</span>
+                        <span class="card-tag">Sliders</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="card-subtext">Real-time Calculation</span>
+                    <a href="week4_emi_calculator/index.html" class="btn-launch">
+                        <span>Launch App</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- WEEK 5 -->
+            <div class="program-card card-w5" data-category="js">
+                <div>
+                    <div class="card-top">
+                        <div class="card-icon-wrap">✓</div>
+                        <span class="week-pill">Week 05</span>
+                    </div>
+                    <h2 class="card-title">Real-Time Form Validation</h2>
+                    <p class="card-desc">
+                        Full client-side regex field validation with real-time feedback, password strength indicators, uppercase/number/symbol checks, and mobile number pattern validation.
+                    </p>
+                    <div class="card-tags">
+                        <span class="card-tag">RegEx</span>
+                        <span class="card-tag">Real-Time</span>
+                        <span class="card-tag">Security</span>
+                        <span class="card-tag">DOM Validation</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="card-subtext">7 Validation Rules</span>
+                    <a href="week5_form_validation/index.html" class="btn-launch">
+                        <span>Launch App</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- WEEK 6 -->
+            <div class="program-card card-w6" data-category="xml">
+                <div>
+                    <div class="card-top">
+                        <div class="card-icon-wrap">&lt;/&gt;</div>
+                        <span class="week-pill">Week 06</span>
+                    </div>
+                    <h2 class="card-title">XML with DTD &amp; Schema</h2>
+                    <p class="card-desc">
+                        Structured book catalog XML data document strictly validated against a Document Type Definition (DTD) and W3C XML Schema (XSD) definition rules.
+                    </p>
+                    <div class="card-tags">
+                        <span class="card-tag">XML</span>
+                        <span class="card-tag">DTD Grammar</span>
+                        <span class="card-tag">XSD Schema</span>
+                        <span class="card-tag">Data Models</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="card-subtext">XML + DTD + XSD</span>
+                    <a href="week6_xml_dtd_schema/book.xml" class="btn-launch">
+                        <span>View XML</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- WEEK 7 -->
+            <div class="program-card card-w7" data-category="xml">
+                <div>
+                    <div class="card-top">
+                        <div class="card-icon-wrap">🎨</div>
+                        <span class="week-pill">Week 07</span>
+                    </div>
+                    <h2 class="card-title">XML Catalog with CSS</h2>
+                    <p class="card-desc">
+                        Rich XML presentation layer styled natively with external cascading style sheets, utilizing course attributes, formatted price displays, and custom layout.
+                    </p>
+                    <div class="card-tags">
+                        <span class="card-tag">XML</span>
+                        <span class="card-tag">CSS Styling</span>
+                        <span class="card-tag">Attributes</span>
+                        <span class="card-tag">Presentation</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="card-subtext">Direct XML Render</span>
+                    <a href="week7_xml_xslt/booksdemo.xml" class="btn-launch">
+                        <span>View Catalog</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- TECH STACK SECTION -->
+    <section class="tech-section">
+        <div class="tech-box">
+            <h3>Technologies &amp; Standards Explored</h3>
+            <div class="tech-pills">
+                <div class="tech-pill"><span class="tech-dot" style="background:#e34f26"></span>HTML5 Semantic Markup</div>
+                <div class="tech-pill"><span class="tech-dot" style="background:#0284c7"></span>CSS3 Modern Layouts</div>
+                <div class="tech-pill"><span class="tech-dot" style="background:#f59e0b"></span>JavaScript (ES6+)</div>
+                <div class="tech-pill"><span class="tech-dot" style="background:#8b5cf6"></span>RegEx Form Engine</div>
+                <div class="tech-pill"><span class="tech-dot" style="background:#ea580c"></span>XML 1.0 &amp; DTD</div>
+                <div class="tech-pill"><span class="tech-dot" style="background:#10b981"></span>W3C XML Schema (XSD)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="title">Vardhaman College of Engineering</span>
+                <span class="sub">Autonomous Institution · Affiliated to JNTUH · Accredited by NAAC A++</span>
+            </div>
+            <div class="footer-details">
+                <div>Developed by <strong>S Sridinesh</strong> (Roll No: <strong>25885A0549</strong>)</div>
+                <div style="margin-top: 4px; color: var(--text-tertiary);">Department of Computer Science and Engineering · Section G</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE FILTER SCRIPT -->
+    <script>
+        function filterCards(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const cards = document.querySelectorAll('.program-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

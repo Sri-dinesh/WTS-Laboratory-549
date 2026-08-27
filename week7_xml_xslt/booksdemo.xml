@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/css" href="books.css"?>
+<catalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="books.xsd">
+
+    <book course="cse">
+        <title>Web Technologies</title>
+        <author>Kogent Learning Solutions</author>
+        <publisher>DreamTech</publisher>
+        <pages>1200</pages>
+        <price>2552.75</price>
+    </book>
+
+    <book course="cse">
+        <title>Operating Systems</title>
+        <author>Galvin</author>
+        <publisher>TMcH</publisher>
+        <pages>900</pages>
+        <price>850.50</price>
+    </book>
+
+    <book course="ece">
+        <title>Control Systems</title>
+        <author>David Henry</author>
+        <publisher>BPB</publisher>
+        <pages>600</pages>
+        <price>1250.70</price>
+    </book>
+
+</catalog>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Header — VCE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            background: #ffffff;
+            color: #0f172a;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            border-bottom: 1px solid #e2e8f0;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .logo-badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #0d9488, #0284c7);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
+        }
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .brand-title {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.1;
+        }
+        .brand-subtitle {
+            font-size: 0.68rem;
+            color: #0d9488;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .divider {
+            width: 1px;
+            height: 28px;
+            background: #e2e8f0;
+            margin: 0 20px;
+            flex-shrink: 0;
+        }
+        .ticker-wrap {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 6px 14px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .ticker-pill {
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .ticker-content {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+        .ticker-content span {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: #475569;
+            font-weight: 500;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: marquee 22s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        .back-portal {
+            margin-left: 20px;
+            flex-shrink: 0;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #0d9488;
+            text-decoration: none;
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .back-portal:hover {
+            background: #ccfbf1;
+        }
+    </style>
+</head>
+<body>
+    <div class="brand">
+        <div class="logo-badge">VCE</div>
+        <div class="brand-text">
+            <span class="brand-title">Vardhaman College of Engineering</span>
+            <span class="brand-subtitle">Autonomous Institution · NAAC A++</span>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="ticker-wrap">
+        <span class="ticker-pill">Notice</span>
+        <div class="ticker-content">
+            <span>Admissions open for Academic Year 2024-25 · Affiliated to JNTUH · Approved by AICTE · NBA Accredited Programs · Campus Placement Drive in Progress</span>
+        </div>
+    </div>
+
+    <a href="../index.html" target="_top" class="back-portal">← Lab Portal</a>
+</body>
+</html>
