@@ -3,201 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Samsung Galaxy S22 5G — Full Specs</title>
+    <title>Samsung Galaxy S22 5G — Specifications</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #f8fafc;
-            --surface: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-tertiary: #94a3b8;
-            --border-color: #e2e8f0;
-            --blue-primary: #0284c7;
-            --blue-light: #f0f9ff;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+            --bg: #ffffff;
+            --bg-subtle: #f9fafb;
+            --border: #e5e7eb;
+            --border-hover: #d1d5db;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --text-dim: #9ca3af;
+            --primary: #18181b;
+            --primary-hover: #27272a;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
             -webkit-font-smoothing: antialiased;
-            line-height: 1.6;
-            min-height: 100vh;
+            line-height: 1.5;
         }
 
         .wrap {
             max-width: 800px;
             margin: 0 auto;
-            padding: 0 clamp(20px, 4vw, 40px);
+            padding: 0 24px;
         }
 
         .topbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 18px 0;
+            border-bottom: 1px solid var(--border);
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--blue-primary);
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
             text-decoration: none;
-            padding: 8px 16px;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 100px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s ease;
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: all 0.15s ease;
         }
 
         .back-link:hover {
-            transform: translateX(-3px);
-            box-shadow: var(--shadow-md);
+            color: var(--text-main);
+            border-color: var(--border-hover);
+            background: var(--bg-subtle);
         }
 
-        .week-tag {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            background: #ffffff;
-            padding: 6px 14px;
-            border-radius: 100px;
-            border: 1px solid var(--border-color);
+        .hero {
+            padding: 40px 0 32px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .product-hero {
-            text-align: center;
-            padding: 48px 0 36px;
-        }
-
-        .product-img-box {
-            display: inline-block;
-            position: relative;
-            margin-bottom: 24px;
-        }
-
-        .product-img-box img {
-            width: 180px;
-            height: 180px;
+        .hero-img {
+            width: 140px;
+            height: 140px;
             object-fit: cover;
-            border-radius: 28px;
-            box-shadow: 0 16px 32px rgba(2, 132, 199, 0.15);
-            border: 4px solid #ffffff;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            flex-shrink: 0;
         }
 
-        .product-hero h1 {
-            font-size: 2.2rem;
+        .hero-details h1 {
+            font-size: 1.6rem;
             font-weight: 800;
-            letter-spacing: -0.03em;
-            color: var(--text-primary);
-            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+            margin-bottom: 4px;
         }
 
-        .product-hero .price {
-            font-size: 1.25rem;
+        .hero-details .price {
+            font-size: 1.2rem;
             font-weight: 700;
-            color: var(--blue-primary);
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .hero-details .cat {
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
         .specs-card {
-            background: var(--surface);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            box-shadow: var(--shadow-md);
-            padding: 32px;
-            margin-bottom: 48px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin: 32px 0 48px;
+            overflow: hidden;
         }
 
-        .specs-card h2 {
+        .specs-card-header {
+            padding: 16px 20px;
+            background: var(--bg-subtle);
+            border-bottom: 1px solid var(--border);
             font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-tertiary);
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border-color);
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
         }
 
-        .spec-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.92rem;
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
-        .spec-row:last-child {
+        .spec-table tr {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .spec-table tr:last-child {
             border-bottom: none;
         }
 
-        .spec-label {
-            color: var(--text-secondary);
-            font-weight: 500;
+        .spec-table td {
+            padding: 12px 20px;
+            font-size: 0.88rem;
         }
 
-        .spec-val {
-            color: var(--text-primary);
+        .spec-table .lbl {
+            color: var(--text-muted);
+            font-weight: 500;
+            width: 35%;
+        }
+
+        .spec-table .val {
+            color: var(--text-main);
             font-weight: 600;
             text-align: right;
         }
 
         footer {
-            text-align: center;
-            padding: 24px 0 40px;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
             font-size: 0.8rem;
-            color: var(--text-secondary);
+            color: var(--text-dim);
+            text-align: center;
         }
     </style>
 </head>
 <body>
 <div class="wrap">
     <header class="topbar">
-        <a class="back-link" href="index.html">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            <span>Back to Store</span>
-        </a>
-        <span class="week-tag">Week 01 · Sub Page</span>
+        <a class="back-link" href="index.html">← Back to Store</a>
+        <span style="font-size:0.8rem; color:var(--text-muted);">Week 01 Detail View</span>
     </header>
 
-    <div class="product-hero">
-        <div class="product-img-box">
-            <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=400&fit=crop" alt="Samsung Galaxy S22">
+    <div class="hero">
+        <img class="hero-img" src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=400&fit=crop" alt="Samsung Galaxy S22">
+        <div class="hero-details">
+            <h1>Samsung Galaxy S22 5G</h1>
+            <div class="price">₹72,999</div>
+            <div class="cat">Flagship 5G Smartphone · Released 2022</div>
         </div>
-        <h1>Samsung Galaxy S22 5G</h1>
-        <div class="price">Starting at ₹72,999 (Phantom Black / Green)</div>
     </div>
 
     <div class="specs-card">
-        <h2>Technical Specifications</h2>
-        <div class="spec-row"><span class="spec-label">Display</span><span class="spec-val">6.1" Dynamic AMOLED 2X, 120Hz, HDR10+, 1300 nits</span></div>
-        <div class="spec-row"><span class="spec-label">Resolution</span><span class="spec-val">1080 x 2340 pixels (425 ppi)</span></div>
-        <div class="spec-row"><span class="spec-label">Processor</span><span class="spec-val">Qualcomm Snapdragon 8 Gen 1 (4 nm)</span></div>
-        <div class="spec-row"><span class="spec-label">Memory &amp; RAM</span><span class="spec-val">8 GB LPDDR5 RAM</span></div>
-        <div class="spec-row"><span class="spec-label">Internal Storage</span><span class="spec-val">128 GB / 256 GB UFS 3.1</span></div>
-        <div class="spec-row"><span class="spec-label">Rear Camera</span><span class="spec-val">50 MP (wide) + 10 MP (telephoto 3x) + 12 MP (ultrawide)</span></div>
-        <div class="spec-row"><span class="spec-label">Front Camera</span><span class="spec-val">10 MP Dual Pixel Auto-Focus</span></div>
-        <div class="spec-row"><span class="spec-label">Battery Capacity</span><span class="spec-val">3,700 mAh with 25W Fast Wired Charging</span></div>
-        <div class="spec-row"><span class="spec-label">Operating System</span><span class="spec-val">Android 12 (Upgradable), One UI</span></div>
-        <div class="spec-row"><span class="spec-label">Water Resistance</span><span class="spec-val">IP68 dust/water resistant (up to 1.5m for 30 min)</span></div>
+        <div class="specs-card-header">Hardware &amp; System Specifications</div>
+        <table class="spec-table">
+            <tr><td class="lbl">Display</td><td class="val">6.1" Dynamic AMOLED 2X, 120Hz, HDR10+, 1300 nits</td></tr>
+            <tr><td class="lbl">Resolution</td><td class="val">1080 x 2340 pixels (425 ppi)</td></tr>
+            <tr><td class="lbl">Processor</td><td class="val">Qualcomm Snapdragon 8 Gen 1 (4 nm)</td></tr>
+            <tr><td class="lbl">RAM</td><td class="val">8 GB LPDDR5</td></tr>
+            <tr><td class="lbl">Storage</td><td class="val">128 GB / 256 GB UFS 3.1</td></tr>
+            <tr><td class="lbl">Main Camera</td><td class="val">50 MP (wide) + 10 MP (3x telephoto) + 12 MP (ultrawide)</td></tr>
+            <tr><td class="lbl">Front Camera</td><td class="val">10 MP Dual Pixel Auto-Focus</td></tr>
+            <tr><td class="lbl">Battery</td><td class="val">3,700 mAh (25W Wired Fast Charging)</td></tr>
+            <tr><td class="lbl">OS</td><td class="val">Android 12, One UI 4.1</td></tr>
+            <tr><td class="lbl">Build</td><td class="val">Corning Gorilla Glass Victus+, Aluminum frame</td></tr>
+        </table>
     </div>
 
     <footer>S Sridinesh · 25885A0549 · CSE-G · Vardhaman College of Engineering</footer>

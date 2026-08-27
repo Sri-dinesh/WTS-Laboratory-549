@@ -6,287 +6,196 @@
     <title>Mobile Store — Week 01</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #f8fafc;
-            --surface: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-tertiary: #94a3b8;
-            --border-color: #e2e8f0;
-            --blue-primary: #0284c7;
-            --blue-light: #f0f9ff;
-            --blue-border: #bae6fd;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-            --shadow-hover: 0 20px 25px -5px rgba(2, 132, 199, 0.12), 0 8px 10px -6px rgba(2, 132, 199, 0.08);
+            --bg: #ffffff;
+            --bg-subtle: #f9fafb;
+            --border: #e5e7eb;
+            --border-hover: #d1d5db;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --text-dim: #9ca3af;
+            --primary: #18181b;
+            --primary-hover: #27272a;
+            --accent: #2563eb;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
             -webkit-font-smoothing: antialiased;
-            line-height: 1.6;
-            background-image: radial-gradient(at 0% 0%, rgba(2, 132, 199, 0.05) 0px, transparent 50%),
-                              radial-gradient(at 100% 100%, rgba(13, 148, 136, 0.05) 0px, transparent 50%);
-            min-height: 100vh;
+            line-height: 1.5;
         }
 
         .wrap {
-            max-width: 1160px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 0 clamp(20px, 4vw, 48px);
+            padding: 0 24px;
         }
 
-        /* ═══════════════════════════════════════════
-           TOPBAR / NAVBAR
-           ═══════════════════════════════════════════ */
+        /* ── TOPBAR ── */
         .topbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 18px 0;
+            border-bottom: 1px solid var(--border);
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--blue-primary);
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
             text-decoration: none;
-            padding: 8px 16px;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 100px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s ease;
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: all 0.15s ease;
         }
 
         .back-link:hover {
-            transform: translateX(-3px);
-            border-color: var(--blue-primary);
-            box-shadow: var(--shadow-md);
+            color: var(--text-main);
+            border-color: var(--border-hover);
+            background: var(--bg-subtle);
         }
 
-        .meta-badge {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.82rem;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            padding: 6px 14px;
-            border-radius: 100px;
-            box-shadow: var(--shadow-sm);
-            color: var(--text-secondary);
+        .meta-pill {
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
-        .meta-badge strong {
-            color: var(--text-primary);
+        .meta-pill strong {
+            color: var(--text-main);
         }
 
-        /* ═══════════════════════════════════════════
-           HERO SECTION
-           ═══════════════════════════════════════════ */
+        /* ── HERO ── */
         .hero {
-            padding: 48px 0 40px;
-            text-align: center;
+            padding: 48px 0 36px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .hero-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
+        .hero-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--blue-primary);
-            background: var(--blue-light);
-            border: 1px solid var(--blue-border);
-            padding: 5px 14px;
-            border-radius: 100px;
-            margin-bottom: 16px;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            display: inline-block;
         }
 
         .hero h1 {
-            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
             font-weight: 800;
             letter-spacing: -0.03em;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-        }
-
-        .hero p {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            max-width: 540px;
-            margin: 0 auto;
-        }
-
-        /* ═══════════════════════════════════════════
-           PRODUCTS SECTION
-           ═══════════════════════════════════════════ */
-        .products-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 36px;
-            padding-bottom: 72px;
-        }
-
-        .product-card {
-            background: var(--surface);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-            display: grid;
-            grid-template-columns: 1fr 1.15fr;
-            transition: all 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--blue-border);
-        }
-
-        .product-card.reversed {
-            direction: rtl;
-        }
-
-        .product-card.reversed > * {
-            direction: ltr;
-        }
-
-        .product-visual {
-            background: linear-gradient(135deg, #f8fafc 0%, #f0f9ff 100%);
-            padding: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            border-right: 1px solid var(--border-color);
-        }
-
-        .product-card.reversed .product-visual {
-            border-right: none;
-            border-left: 1px solid var(--border-color);
-        }
-
-        .product-visual .glow-blob {
-            position: absolute;
-            width: 260px;
-            height: 260px;
-            border-radius: 50%;
-            background: rgba(2, 132, 199, 0.12);
-            filter: blur(60px);
-            pointer-events: none;
-        }
-
-        .product-visual img {
-            width: 100%;
-            max-width: 300px;
-            aspect-ratio: 1;
-            object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s ease;
-        }
-
-        .product-card:hover .product-visual img {
-            transform: scale(1.03);
-        }
-
-        .product-content {
-            padding: clamp(32px, 4vw, 56px);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-meta-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .brand-chip {
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            padding: 4px 10px;
-            border-radius: 6px;
-            background: var(--blue-light);
-            color: var(--blue-primary);
-            border: 1px solid var(--blue-border);
-        }
-
-        .rating-chip {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: #d97706;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .product-name {
-            font-size: clamp(1.6rem, 2.5vw, 2.1rem);
-            font-weight: 800;
-            color: var(--text-primary);
-            letter-spacing: -0.03em;
-            line-height: 1.2;
+            color: var(--text-main);
             margin-bottom: 8px;
         }
 
-        .product-price-box {
+        .hero p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            max-width: 600px;
+        }
+
+        /* ── PRODUCT CARDS ── */
+        .products-grid {
             display: flex;
-            align-items: baseline;
-            gap: 12px;
-            margin-bottom: 24px;
+            flex-direction: column;
+            gap: 32px;
+            padding: 40px 0 64px;
         }
 
-        .current-price {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #0f172a;
+        .product-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            overflow: hidden;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .price-badge {
+        .product-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+        }
+
+        .product-img-box {
+            background: var(--bg-subtle);
+            border-right: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+        }
+
+        .product-img-box img {
+            width: 100%;
+            max-width: 240px;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        .product-details {
+            padding: 32px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .product-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-main);
+        }
+
+        .product-category {
             font-size: 0.75rem;
             font-weight: 600;
-            color: #16a34a;
-            background: #dcfce7;
-            padding: 3px 8px;
-            border-radius: 6px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 18px;
         }
 
+        /* ── SPECS TABLE ── */
         .specs-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .specs-table tr {
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border);
         }
 
         .specs-table tr:last-child {
@@ -294,99 +203,87 @@
         }
 
         .specs-table td {
-            padding: 10px 0;
-            font-size: 0.88rem;
+            padding: 8px 0;
+            font-size: 0.85rem;
         }
 
-        .specs-table .spec-label {
-            color: var(--text-tertiary);
-            font-weight: 500;
+        .specs-table .lbl {
+            color: var(--text-muted);
             width: 35%;
+            font-weight: 500;
         }
 
-        .specs-table .spec-value {
-            color: var(--text-primary);
+        .specs-table .val {
+            color: var(--text-main);
             font-weight: 600;
             text-align: right;
         }
 
         .action-row {
             display: flex;
-            gap: 14px;
+            gap: 12px;
             align-items: center;
         }
 
         .btn-primary {
-            flex: 1;
-            padding: 12px 24px;
-            background: var(--blue-primary);
-            color: #ffffff;
-            font-size: 0.88rem;
-            font-weight: 600;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary:hover {
-            opacity: 0.92;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.4);
-        }
-
-        .btn-outline {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 12px 20px;
-            background: #ffffff;
-            color: var(--text-secondary);
-            font-size: 0.88rem;
+            padding: 9px 18px;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 0.84rem;
             font-weight: 600;
             text-decoration: none;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            transition: all 0.2s ease;
+            border-radius: var(--radius-sm);
+            transition: background 0.15s ease;
         }
 
-        .btn-outline:hover {
-            color: var(--text-primary);
-            border-color: var(--text-tertiary);
-            background: #f8fafc;
+        .btn-primary:hover {
+            background: var(--primary-hover);
         }
 
-        /* ═══════════════════════════════════════════
-           FOOTER
-           ═══════════════════════════════════════════ */
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 16px;
+            background: #ffffff;
+            color: var(--text-muted);
+            font-size: 0.84rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: all 0.15s ease;
+        }
+
+        .btn-secondary:hover {
+            color: var(--text-main);
+            border-color: var(--border-hover);
+            background: var(--bg-subtle);
+        }
+
+        /* ── FOOTER ── */
         footer {
-            padding: 32px 0;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
             font-size: 0.8rem;
-            color: var(--text-secondary);
+            color: var(--text-dim);
             text-align: center;
         }
 
-        @media (max-width: 820px) {
+        @media (max-width: 768px) {
             .product-card {
                 grid-template-columns: 1fr;
             }
-            .product-visual {
-                border-right: none !important;
-                border-left: none !important;
-                border-bottom: 1px solid var(--border-color);
-                padding: 36px;
+            .product-img-box {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding: 24px;
             }
-            .product-card.reversed {
-                direction: ltr;
-            }
-            .action-row {
-                flex-direction: column;
-            }
-            .btn-primary, .btn-outline {
-                width: 100%;
+            .product-details {
+                padding: 24px;
             }
         }
     </style>
@@ -397,19 +294,19 @@
     <!-- TOPBAR -->
     <header class="topbar">
         <a class="back-link" href="../index.html">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            <span>All Lab Programs</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            <span>Back to Lab Portal</span>
         </a>
-        <div class="meta-badge">
-            <strong>S Sridinesh</strong> · 25885A0549 · Week 01
+        <div class="meta-pill">
+            <strong>S Sridinesh</strong> · Week 01
         </div>
     </header>
 
     <!-- HERO -->
     <section class="hero">
-        <div class="hero-pill">📱 Week 01 · Static Web Page</div>
-        <h1>ElectroHub Mobile Showcase</h1>
-        <p>A catalog presentation with structured specification tables, device overviews, and detailed sub-pages.</p>
+        <span class="hero-tag">Week 01 · Static HTML Catalog</span>
+        <h1>Mobile Store Product Catalog</h1>
+        <p>A structured product catalog displaying device features, pricing tables, specifications, and linked detail sub-pages.</p>
     </section>
 
     <!-- PRODUCTS -->
@@ -417,75 +314,63 @@
 
         <!-- SAMSUNG GALAXY S22 -->
         <article class="product-card">
-            <div class="product-visual">
-                <div class="glow-blob"></div>
-                <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=600&h=600&fit=crop" alt="Samsung Galaxy S22 5G">
+            <div class="product-img-box">
+                <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500&h=500&fit=crop" alt="Samsung Galaxy S22 5G">
             </div>
-            <div class="product-content">
+            <div class="product-details">
                 <div>
-                    <div class="product-meta-header">
-                        <span class="brand-chip">Flagship · 5G</span>
-                        <div class="rating-chip">★ 4.8 / 5.0 (2,410 Reviews)</div>
-                    </div>
-                    <h2 class="product-name">Samsung Galaxy S22 5G</h2>
-                    <div class="product-price-box">
-                        <span class="current-price">₹72,999</span>
-                        <span class="price-badge">Special Offer</span>
+                    <div class="product-header">
+                        <div>
+                            <h2 class="product-name">Samsung Galaxy S22 5G</h2>
+                            <div class="product-category">Flagship Tier · Dual SIM</div>
+                        </div>
+                        <div class="product-price">₹72,999</div>
                     </div>
 
                     <table class="specs-table">
-                        <tr><td class="spec-label">Display</td><td class="spec-value">6.1" Dynamic AMOLED 2X, 120Hz</td></tr>
-                        <tr><td class="spec-label">Processor</td><td class="spec-value">Snapdragon 8 Gen 1 (4nm)</td></tr>
-                        <tr><td class="spec-label">RAM &amp; Storage</td><td class="spec-value">8 GB RAM · 128 GB UFS 3.1</td></tr>
-                        <tr><td class="spec-label">Camera</td><td class="spec-value">50 MP + 12 MP + 10 MP Triple</td></tr>
-                        <tr><td class="spec-label">Battery</td><td class="spec-value">3,700 mAh (25W Fast Charge)</td></tr>
+                        <tr><td class="lbl">Display</td><td class="val">6.1" Dynamic AMOLED 2X, 120Hz</td></tr>
+                        <tr><td class="lbl">Processor</td><td class="val">Snapdragon 8 Gen 1 (4nm)</td></tr>
+                        <tr><td class="lbl">Memory</td><td class="val">8 GB RAM · 128 GB Storage</td></tr>
+                        <tr><td class="lbl">Camera</td><td class="val">50 MP + 12 MP + 10 MP Triple</td></tr>
+                        <tr><td class="lbl">Battery</td><td class="val">3,700 mAh (25W Fast Charge)</td></tr>
                     </table>
                 </div>
 
                 <div class="action-row">
                     <a class="btn-primary" href="s22.html">Full Specifications →</a>
-                    <a class="btn-outline" href="https://youtu.be/C8Axygwyweg" target="_blank" rel="noopener">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-                        <span>Watch Review</span>
-                    </a>
+                    <a class="btn-secondary" href="https://youtu.be/C8Axygwyweg" target="_blank" rel="noopener">Watch Video</a>
                 </div>
             </div>
         </article>
 
         <!-- REDMI 12C -->
-        <article class="product-card reversed">
-            <div class="product-content">
+        <article class="product-card">
+            <div class="product-img-box">
+                <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500&h=500&fit=crop" alt="Redmi 12C">
+            </div>
+            <div class="product-details">
                 <div>
-                    <div class="product-meta-header">
-                        <span class="brand-chip" style="background:#f0fdfa; color:#0d9488; border-color:#99f6e4;">Best Value · 4G</span>
-                        <div class="rating-chip">★ 4.4 / 5.0 (5,120 Reviews)</div>
-                    </div>
-                    <h2 class="product-name">Redmi 12C Dual SIM</h2>
-                    <div class="product-price-box">
-                        <span class="current-price">₹8,999</span>
-                        <span class="price-badge">Save 35%</span>
+                    <div class="product-header">
+                        <div>
+                            <h2 class="product-name">Redmi 12C</h2>
+                            <div class="product-category">Budget Tier · Dual SIM</div>
+                        </div>
+                        <div class="product-price">₹8,999</div>
                     </div>
 
                     <table class="specs-table">
-                        <tr><td class="spec-label">Display</td><td class="spec-value">6.71" HD+ Dot Drop Display</td></tr>
-                        <tr><td class="spec-label">Processor</td><td class="spec-value">MediaTek Helio G85 Octa-Core</td></tr>
-                        <tr><td class="spec-label">RAM &amp; Storage</td><td class="spec-value">4 GB RAM · 64 GB Storage</td></tr>
-                        <tr><td class="spec-label">Camera</td><td class="spec-value">50 MP AI Dual Camera</td></tr>
-                        <tr><td class="spec-label">Battery</td><td class="spec-value">5,000 mAh All-Day Power</td></tr>
+                        <tr><td class="lbl">Display</td><td class="val">6.71" HD+ Dot Drop Display</td></tr>
+                        <tr><td class="lbl">Processor</td><td class="val">MediaTek Helio G85 Octa-Core</td></tr>
+                        <tr><td class="lbl">Memory</td><td class="val">4 GB RAM · 64 GB Storage</td></tr>
+                        <tr><td class="lbl">Camera</td><td class="val">50 MP AI Dual Camera</td></tr>
+                        <tr><td class="lbl">Battery</td><td class="val">5,000 mAh High-Capacity</td></tr>
                     </table>
                 </div>
 
                 <div class="action-row">
-                    <a class="btn-primary" style="background:#0d9488; box-shadow:0 4px 12px rgba(13,148,136,0.3);" href="12c.html">Full Specifications →</a>
-                    <a class="btn-outline" href="https://www.youtube.com/watch?v=j-EILr-KFQA" target="_blank" rel="noopener">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-                        <span>Watch Review</span>
-                    </a>
+                    <a class="btn-primary" href="12c.html">Full Specifications →</a>
+                    <a class="btn-secondary" href="https://www.youtube.com/watch?v=j-EILr-KFQA" target="_blank" rel="noopener">Watch Video</a>
                 </div>
-            </div>
-            <div class="product-visual">
-                <div class="glow-blob" style="background:rgba(13, 148, 136, 0.12)"></div>
-                <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&h=600&fit=crop" alt="Redmi 12C">
             </div>
         </article>
 
@@ -493,7 +378,7 @@
 
     <!-- FOOTER -->
     <footer>
-        Web Technologies Lab · S Sridinesh (25885A0549) · Vardhaman College of Engineering
+        S Sridinesh · 25885A0549 · CSE-G · Vardhaman College of Engineering
     </footer>
 </div>
 
