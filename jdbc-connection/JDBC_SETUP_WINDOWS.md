@@ -1,315 +1,131 @@
-# JDBC Setup Guide for Windows
+# JDBC Registration Demo: Complete Windows Setup
 
-This guide walks you through setting up and running the **JDBC Registration Demo** on Windows. We'll install MySQL, configure it, set up the JDBC driver, and run the application.
+This guide starts with a new Windows computer and takes you through installing MySQL and Java, preparing the project, and running the registration app.
 
----
+## What you need
 
-## Table of Contents
+- Windows 10 or 11
+- An internet connection for the installers
+- This project folder, including `jdbc-connection`
+- A MySQL account and its password
 
-1. [Install MySQL](#1-install-mysql)
-2. [Configure MySQL](#2-configure-mysql)
-3. [Verify Java Installation](#3-verify-java-installation)
-4. [Download JDBC Driver](#4-download-jdbc-driver)
-5. [Configure the Project](#5-configure-the-project)
-6. [Compile and Run](#6-compile-and-run)
-7. [Troubleshooting](#7-troubleshooting)
+Complete the sections in order. You only need to install these tools once.
 
----
+## 1. Install MySQL Server
 
-## 1. Install MySQL
+1. Download the Windows installer from [MySQL Community Downloads](https://dev.mysql.com/downloads/installer/).
+2. Run the installer. Choose a setup type that includes **MySQL Server**. If you select **Custom**, add MySQL Server before continuing.
+3. Configure MySQL Server as a standalone server.
+4. Keep the default classic protocol port, `3306`, unless you have a reason to use another port.
+5. Choose the recommended authentication option and set a root password. Remember this password; you will enter it into the app configuration in Step 6.
+6. Configure MySQL as a Windows service and enable it to start automatically. Complete the installer.
 
-### Step 1.1: Download MySQL Installer
+MySQL Shell may display `localhost:33060`. That is the X Protocol port. This Java app uses Connector/J with the classic protocol, normally on `3306`; do not put `33060` in the JDBC URL.
 
-1. Go to [MySQL Official Downloads](https://dev.mysql.com/downloads/mysql/)
-2. Select your Windows version (64-bit recommended)
-3. Download the **MySQL Installer** (standalone version)
+To check that the MySQL service is running, open the Windows **Services** app and look for a service such as `MySQL80`. Start it if it is stopped.
 
-### Step 1.2: Run the Installer
+## 2. Install the Java JDK
 
-1. Double-click the downloaded `.msi` file
-2. Choose **"Setup Type"**: Select **Custom** for more control
-3. In the product list:
-   - Select **MySQL Server** (any recent version like 8.0.x)
-   - Click **"Next"**
-4. Click **"Execute"** to download and install the files
-5. Click **"Next"** to continue
+Install JDK 17 or newer. A JDK includes both `java` and the `javac` compiler required by the run script.
 
-### Step 1.3: Configure MySQL Server
+Download a Windows JDK from [Oracle Java](https://www.oracle.com/in/java/technologies/downloads/#java27) or another trusted JDK provider. Run the installer and enable its option to add Java to `PATH` if offered.
 
-1. Choose **"Standalone MySQL Server / Classic MySQL Server"**
-2. Click **"Next"**
-3. Set the following:
-   - **Port**: `3306` (default is fine)
-   - **MySQL Root Password**: Set a strong password (e.g., `root123`) — **remember this!**
-4. Click **"Next"** → **"Execute"** → **"Finish"**
+Open a **new** PowerShell or Command Prompt window and check the installation:
 
-### Step 1.4: Verify Installation
-
-Open **Command Prompt** (Win + R, type `cmd`, press Enter) and run:
-
-```cmd
-mysql --version
-```
-
-You should see something like: `mysql  Ver 8.0.x for Windows on x86_64`
-
----
-
-## 2. Configure MySQL
-
-### Step 2.1: Log in to MySQL
-
-Open **Command Prompt** and run:
-
-```cmd
-mysql -u root -p
-```
-
-When prompted, enter the root password you set during installation.
-
-You should see the `mysql>` prompt.
-
-### Step 2.2: Create Database
-
-Copy and paste this into the MySQL prompt:
-
-```sql
-CREATE DATABASE jdbc_demo;
-USE jdbc_demo;
-
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    phone VARCHAR(15),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-Then press **Enter**. You should see `Query OK` messages.
-
-### Step 2.3: Create a Database User (Optional but Recommended)
-
-Instead of using the `root` user for the application, create a dedicated user:
-
-```sql
-CREATE USER 'dbuser'@'localhost' IDENTIFIED BY 'DbPassword123';
-GRANT ALL PRIVILEGES ON jdbc_demo.* TO 'dbuser'@'localhost';
-FLUSH PRIVILEGES;
-```
-
-This creates a user `dbuser` with password `DbPassword123` (you can change these to anything you prefer).
-
-### Step 2.4: Exit MySQL
-
-Type:
-
-```sql
-EXIT;
-```
-
----
-
-## 3. Verify Java Installation
-
-You need **Java Development Kit (JDK)** version 8 or higher.
-
-### Step 3.1: Check Java Version
-
-Open **Command Prompt** and run:
-
-```cmd
+```powershell
 java -version
+javac -version
 ```
 
-You should see something like:
+Both commands should print version information. If either command is not found, finish configuring the JDK installer or add the JDK's `bin` folder to Windows `PATH`, then reopen the terminal.
 
-```
-java version "11.0.x" 2021-XX-XX
-```
+## 3. Download and extract MySQL Connector/J
 
-### Step 3.2: Install Java (If Not Already Installed)
+Connector/J is the JDBC driver that lets the Java app connect to MySQL.
 
-If Java is not installed:
+1. Open [MySQL Connector/J downloads](https://dev.mysql.com/downloads/connector/j/).
+2. Select the current Windows-independent archive (ZIP), download it, and extract it. If the download page offers a platform-independent ZIP archive, use that.
+3. Find the extracted file named like `mysql-connector-j-<version>.jar`. It may be inside a nested folder with the same version name.
+4. Keep the extracted folder or the JAR in a permanent, easy-to-find location, such as your Downloads folder or `C:\jars`.
 
-1. Go to [Oracle JDK Downloads](https://www.oracle.com/java/technologies/downloads/)
-2. Download **JDK 11** (LTS) or newer for Windows
-3. Run the installer and follow the on-screen instructions
-4. During installation, note the installation path (e.g., `C:\Program Files\Java\jdk-11.0.x`)
+Do not pass the downloaded ZIP file to the run script. Pass the extracted folder or the `.jar` file inside it.
 
-### Step 3.3: Add Java to System PATH (If Needed)
+## 4. Open the project folder
 
-If `java -version` doesn't work after installation:
+Open PowerShell or Command Prompt and change to the `jdbc-connection` folder in this project. For example:
 
-1. **Press** Win + X → **Settings**
-2. Search for **"Edit the system environment variables"**
-3. Click **"Environment Variables"**
-4. Under **"System variables"**, click **"New"**
-5. Add:
-   - **Variable name**: `JAVA_HOME`
-   - **Variable value**: `C:\Program Files\Java\jdk-11.0.x` (your JDK path)
-6. Click **"OK"** → **"OK"** → **"OK"**
-7. Restart **Command Prompt** and test again with `java -version`
-
----
-
-## 4. Download JDBC Driver
-
-The JDBC driver is the Java library that lets your Java code talk to MySQL.
-
-### Step 4.1: Download MySQL Connector/J JDBC Driver
-
-1. Go to [MySQL Connector/J Downloads](https://dev.mysql.com/downloads/connector/j/)
-2. Under **"Select Operating System"**, choose **Platform Independent**
-3. Download the `.jar` file (e.g., `mysql-connector-java-8.x.x.jar`)
-4. **Save it to a folder** you can easily access, e.g.:
-   ```
-   C:\Users\YourUsername\jars\
-   ```
-   (Create the `jars` folder if it doesn't exist)
-
-### Step 4.2: Note the Full Path
-
-After downloading, you'll have a file like:
-
-```
-C:\Users\YourUsername\jars\mysql-connector-java-8.0.33.jar
+```powershell
+cd "C:\Users\YourName\OneDrive\Desktop\projects\WTS-Laboratory-549\jdbc-connection"
 ```
 
-**Keep this path handy** — you'll need it later when compiling and running. (Note: The exact version number may differ; use whatever you downloaded.)
+Replace the example with the actual location of your project. This folder should contain `run.bat`, `setup.sql`, and the `src` folder.
 
----
+If you do not have the project yet, clone or download it from the [WTS-Laboratory-549 repository](https://github.com/Sri-dinesh/WTS-Laboratory-549), then open its `jdbc-connection` folder.
 
-## 5. Configure the Project
+## 5. Create the application database
 
-### Step 5.1: Clone/Download the Project
+The project includes `setup.sql`. It creates the `jdbc_demo` database and the `users` table expected by the app. Run it once; it is safe to run again if the database and table already exist.
 
-You can get the JDBC project code from GitHub in two ways:
+### Option A: Run it from MySQL Shell
 
-#### Option A: Clone with Git (Recommended)
+Open MySQL Shell and connect to the MySQL server. At the SQL prompt, run `\source` followed by the full path to this project's `setup.sql`. Use forward slashes in the path, for example:
 
-If you have **Git** installed on your Windows machine:
+```text
+\source C:/Users/YourName/OneDrive/Desktop/projects/WTS-Laboratory-549/jdbc-connection/setup.sql
+```
 
-1. Open **Command Prompt** or **PowerShell**
-2. Navigate to where you want to store the project:
-   ```cmd
-   cd C:\Users\YourUsername\Projects
-   ```
-3. Clone the repository:
-   ```cmd
-   git clone https://github.com/Sri-dinesh/WTS-Laboratory-549.git
-   ```
-4. Navigate into the project:
-   ```cmd
-   cd WTS-Laboratory-549\jdbc-connection
-   ```
+Use your actual Windows username and project path. MySQL Shell should report that the statements completed successfully.
 
-#### Option B: Download as ZIP (If Git Not Installed)
+Verify the setup in MySQL Shell:
 
-1. Go to [https://github.com/Sri-dinesh/WTS-Laboratory-549](https://github.com/Sri-dinesh/WTS-Laboratory-549)
-2. Click the green **"< > Code"** button
-3. Select **"Download ZIP"**
-4. Extract the ZIP file to your desired location (e.g., `C:\Users\YourUsername\Projects`)
-5. Open Windows Explorer and navigate to the `WTS-Laboratory-549\jdbc-connection` folder
+```sql
+USE jdbc_demo;
+SHOW TABLES;
+```
 
-### Step 5.2: Open the Project Files
+The table list should contain `users`.
 
-Navigate to the `jdbc-connection` folder in your Windows Explorer or Command Prompt:
+### Option B: Run it from Command Prompt
+
+If the MySQL command-line client is installed and available on `PATH`, open Command Prompt in the `jdbc-connection` folder and run:
 
 ```cmd
-cd path\to\jdbc-connection
+mysql -u root -p < setup.sql
 ```
 
-Example:
+Enter the root password when prompted. If Windows says `mysql` is not recognized, use Option A or run `mysql.exe` by its full path.
 
-```cmd
-cd C:\Users\YourUsername\Projects\WTS-Laboratory-549\jdbc-connection
-```
+## 6. Set the app's MySQL connection details
 
-### Step 5.3: Check Database Credentials
-
-Open `src/RegistrationApp.java` in a text editor (Notepad++ or VS Code recommended).
-
-Find these lines near the top:
+Open `src/RegistrationApp.java` in VS Code. Near the top, set the connection constants to match your MySQL Server and root account:
 
 ```java
-private static final String URL      = "jdbc:mysql://localhost:3306/jdbc_demo";
-private static final String USER     = "dbuser";
-private static final String PASSWORD = "DbPassword123";
+private static final String URL = "jdbc:mysql://localhost:3306/jdbc_demo";
+private static final String USER = "root";
+private static final String PASSWORD = "your-MySQL-root-password";
 ```
 
-**Update them** to match your MySQL setup:
+Replace `your-MySQL-root-password` with the root password you set in Step 1. If you configured a different classic protocol port, replace `3306` with that port. Save the file.
 
-- If you used the `root` user, change `USER` to `root` and `PASSWORD` to your root password
-- If you created the `dbuser` user in Step 2.3, leave them as-is (or use your own credentials)
-- Keep the URL the same (it points to `jdbc_demo` database on `localhost`)
+The app currently stores its password in the source file for this classroom demo. Do not use this pattern for a real service or commit a real password to a shared repository.
 
-**Save the file.**
+## 7. Compile and run the app
 
-### Step 5.4: Verify `setup.sql`
+From the `jdbc-connection` folder, run `run.bat` and pass the extracted Connector/J folder. Replace the sample paths and version with yours:
 
-The `setup.sql` file contains SQL commands to create the database and table. You've already run these in Step 2.2, but check that it looks like:
-
-```sql
-CREATE DATABASE IF NOT EXISTS jdbc_demo;
-USE jdbc_demo;
-
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    phone VARCHAR(15),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+```powershell
+.\run.bat "C:\Users\YourName\Downloads\mysql-connector-j-<version>"
 ```
 
----
+You can also pass the exact driver JAR:
 
-## 6. Compile and Run
-
-### Step 6.1: Open Command Prompt in Project Folder
-
-Press **Win + R**, type `cmd`, press **Enter**.
-
-Navigate to your project:
-
-```cmd
-cd C:\Users\YourUsername\Projects\practice-stuff\wts_lab_programs\jdbc-connection
+```powershell
+.\run.bat "C:\jars\mysql-connector-j-<version>.jar"
 ```
 
-### Step 6.2: Create Output Directory
+The script locates Connector/J, compiles `src\RegistrationApp.java` into the `out` folder, and starts the app. The first successful launch should show:
 
-Create a folder to hold compiled `.class` files:
-
-```cmd
-mkdir out
-```
-
-### Step 6.3: Compile the Java File
-
-Replace `C:\path\to\mysql-connector.jar` with your actual jar path:
-
-```cmd
-javac -d out -cp "C:\Users\YourUsername\jars\mysql-connector-java-8.0.33.jar" src/RegistrationApp.java
-```
-
-**Example:**
-
-```cmd
-javac -d out -cp "C:\Users\YourUsername\jars\mysql-connector-java-8.0.33.jar" src/RegistrationApp.java
-```
-
-If successful, you'll see **no error messages**. The compiled `.class` file will be in the `out` folder.
-
-### Step 6.4: Run the Application
-
-```cmd
-java -cp "C:\Users\YourUsername\jars\mysql-connector-java-8.0.33.jar;out" RegistrationApp
-```
-
-You should see:
-
-```
+```text
 === JDBC Registration Demo ===
 Connected to the database!
 
@@ -321,125 +137,38 @@ Connected to the database!
 Choose:
 ```
 
-### Step 6.5: Test the Application
+Select a menu option by typing its number and pressing Enter. Choose `5` to exit. The script can also be started by double-clicking `run.bat`, but running it from a terminal makes errors easier to read.
 
-Try the following:
+## Troubleshooting
 
-1. **Register a user**: Choose option `1`, enter name, email, phone
-2. **List users**: Choose option `2` to see all registered users
-3. **Find by email**: Choose option `3` and enter an email
-4. **Delete a user**: Choose option `4` and enter an email
-5. **Exit**: Choose option `5`
+**`java` or `javac` is not recognized**
 
----
+Install a JDK, ensure its `bin` folder is on `PATH`, and open a new terminal. Check again with `java -version` and `javac -version`.
 
-## 7. Troubleshooting
+**The script says no Connector/J JAR was found**
 
-### Issue: `mysql` command not found
+Pass the extracted Connector/J folder or the `.jar` file itself. Do not pass the ZIP archive. The script searches inside the folder, including nested folders.
 
-**Solution:**
+**`No suitable driver found`**
 
-- Add MySQL to your system PATH:
-  1. Find your MySQL installation folder (usually `C:\Program Files\MySQL\MySQL Server 8.0\bin`)
-  2. Add it to your system PATH (same steps as Java in Section 3.3)
-  3. Restart Command Prompt
+The Connector/J JAR was not included at runtime. Run `run.bat` with the correct JAR path or extracted folder.
 
-### Issue: `java` command not found
+**`Unsupported protocol version` or an X Protocol message**
 
-**Solution:**
+The JDBC URL is using an X Protocol port. Use the MySQL classic protocol port, normally `3306`, not `33060`.
 
-- See Section 3.3 to add Java to your system PATH and restart Command Prompt
+**`Connection refused`**
 
-### Issue: "Access denied for user 'dbuser'@'localhost'"
+Check that the MySQL Server Windows service is running and that the port in the JDBC URL is the server's classic protocol port.
 
-**Solution:**
+**`Access denied for user`**
 
-- Double-check the `USER` and `PASSWORD` in `RegistrationApp.java`
-- Verify they match the MySQL user you created in Step 2.3
-- Or change them to `root` and your root password
+Check `USER` and `PASSWORD` in `RegistrationApp.java`. They must match a MySQL account that can connect from `localhost` and access `jdbc_demo`.
 
-### Issue: "Cannot find symbol" or "class not found" during compilation
+**`Unknown database 'jdbc_demo'` or missing `users` table**
 
-**Solution:**
+Run `setup.sql` again using one of the methods in Step 5.
 
-- Make sure the `-cp` (classpath) includes the correct path to the JDBC jar file
-- Use the full path to the jar, e.g., `C:\Users\...\mysql-connector-java-8.0.33.jar`
-- No spaces in the path, or wrap it in quotes
+**Duplicate email while registering**
 
-### Issue: "Connection refused" or "No suitable driver found"
-
-**Solution:**
-
-- Verify MySQL is running (check Windows Services: search for "Services", look for "MySQL80")
-- If MySQL stopped, restart it from Services
-- Double-check the connection URL in `RegistrationApp.java` matches your MySQL setup
-- Ensure the JDBC jar is in the classpath when running the app
-
-### Issue: "Database 'jdbc_demo' doesn't exist"
-
-**Solution:**
-
-- Log back into MySQL and run the setup commands from Section 2.2:
-  ```cmd
-  mysql -u root -p < setup.sql
-  ```
-  (Replace `root` with your username if different)
-
-### Issue: "Duplicate entry" for email when registering
-
-**Solution:**
-
-- The `users` table has a UNIQUE constraint on the email column
-- Try registering with a different email address, or delete the existing user first
-
----
-
-## Quick Reference: Complete Command Sequence
-
-If you just want to copy-paste, here's the complete sequence:
-
-### First Time Setup (Terminal)
-
-```cmd
-# Navigate to project
-cd C:\Users\YourUsername\Projects\practice-stuff\wts_lab_programs\jdbc-connection
-
-# Create output folder
-mkdir out
-
-# Compile
-javac -d out -cp "C:\Users\YourUsername\jars\mysql-connector-java-8.0.33.jar" src/RegistrationApp.java
-
-# Run
-java -cp "C:\Users\YourUsername\jars\mysql-connector-java-8.0.33.jar;out" RegistrationApp
-```
-
-### MySQL Setup (Command Prompt)
-
-```cmd
-# Log into MySQL
-mysql -u root -p
-
-# Then paste these in MySQL prompt:
-CREATE DATABASE jdbc_demo;
-USE jdbc_demo;
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    phone VARCHAR(15),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-EXIT;
-```
-
----
-
-## Next Steps
-
-- Explore the `RegistrationApp.java` file to understand how JDBC works
-- Modify the table structure in `setup.sql` and experiment with new columns
-- Add new menu options (e.g., update user info, search by name)
-- Try connecting to a remote MySQL database instead of localhost
-
-**Happy coding!**
+Email addresses must be unique. Register with another email address or delete the existing user first.
