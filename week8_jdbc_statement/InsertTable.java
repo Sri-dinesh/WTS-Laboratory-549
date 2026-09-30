@@ -1,14 +1,18 @@
 
-//Program to Insert Employee Data
+// Program to Insert Employee Data
 import java.sql.*;
 import java.util.*;
 
 public class InsertTable {
+
     public static void main(String args[]) {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/jdbc_demo", "eremika",
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mariadb://localhost:3306/jdbc_demo",
+                    "eremika",
                     "Mikasa");
+
             Statement st = con.createStatement();
             Scanner sc = new Scanner(System.in);
             System.out.println("Enter the employee details");

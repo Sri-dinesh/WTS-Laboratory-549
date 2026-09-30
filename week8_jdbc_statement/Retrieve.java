@@ -1,16 +1,19 @@
 
-//Program to Retrieve Data from Database
-import java.sql.*; // first step
+// Program to Retrieve Data from Database
+import java.sql.*;
 
 public class Retrieve {
+
     public static void main(String args[]) {
         try {
-            // org.mariadb.jdbc.Driver
-            Class.forName("org.mariadb.jdbc.Driver"); // second step
-            Connection con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/jdbc_demo", "eremika",
-                    "Mikasa"); // third step
-            // step
-            Statement st = con.createStatement(); // fourth step
+            Class.forName("org.mariadb.jdbc.Driver");
+
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mariadb://localhost:3306/jdbc_demo",
+                    "eremika",
+                    "Mikasa");
+
+            Statement st = con.createStatement();
             String qry = "select * from emp1";
             ResultSet rs = st.executeQuery(qry);
             System.out.println("The Employee Details are\n");

@@ -1,17 +1,20 @@
 
-//Program to delete a Record in Table
-import java.sql.*; // first step
+// Program to delete a Record in Table
+import java.sql.*;
 import java.util.*;
 
 public class Delete {
+
     public static void main(String args[]) {
         try {
-            // org.mariadb.jdbc.Driver
-            Class.forName("org.mariadb.jdbc.Driver"); // second step
-            Connection con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/jdbc_demo", "eremika",
-                    "Mikasa"); // third step
-            // step
-            Statement st = con.createStatement(); // fourth step
+            Class.forName("org.mariadb.jdbc.Driver");
+
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mariadb://localhost:3306/jdbc_demo",
+                    "eremika",
+                    "Mikasa");
+
+            Statement st = con.createStatement();
             Scanner sc = new Scanner(System.in);
             System.out.println("Enter the record to be deleted");
             int eno1 = sc.nextInt();
