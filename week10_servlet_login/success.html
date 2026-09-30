@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Success</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --bg-subtle: #f9fafb;
+        --border: #e5e7eb;
+        --border-hover: #d1d5db;
+        --text-main: #111827;
+        --text-muted: #4b5563;
+        --primary: #18181b;
+        --success: #16a34a;
+        --radius-sm: 6px;
+        --radius-md: 10px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text-main);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
+      }
+
+      .wrap {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 0 24px 44px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        text-decoration: none;
+        padding: 6px 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        transition: all 0.15s ease;
+      }
+
+      .back-link:hover {
+        color: var(--text-main);
+        border-color: var(--border-hover);
+        background: var(--bg-subtle);
+      }
+
+      .meta-pill {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .meta-pill strong {
+        color: var(--text-main);
+      }
+
+      .hero {
+        padding: 44px 0 28px;
+      }
+
+      .hero-tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--success);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+        display: inline-block;
+      }
+
+      .hero h1 {
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 8px;
+      }
+
+      .hero p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: #ffffff;
+        padding: 28px;
+      }
+
+      .status-box {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: var(--radius-sm);
+        padding: 16px 18px;
+        margin-top: 18px;
+      }
+
+      .status-box p {
+        font-size: 0.92rem;
+        color: #166534;
+        font-weight: 600;
+      }
+
+      .btn-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .btn {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: #ffffff;
+        color: var(--text-main);
+        border-radius: var(--radius-sm);
+        padding: 10px 14px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s ease;
+      }
+
+      .btn:hover {
+        border-color: var(--border-hover);
+        background: var(--bg-subtle);
+      }
+
+      .btn.primary {
+        background: var(--primary);
+        color: #ffffff;
+        border-color: var(--primary);
+      }
+
+      .btn.primary:hover {
+        background: #27272a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <a class="back-link" href="index.html">Back to Login</a>
+        <div class="meta-pill"><strong>Week 10</strong> Servlet Login</div>
+      </div>
+
+      <section class="hero">
+        <span class="hero-tag">Success</span>
+        <h1>Login successful</h1>
+        <p>
+          The credentials were verified on the server and the request was
+          accepted.
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="status-box">
+          <p>Welcome user.</p>
+        </div>
+        <div class="btn-row">
+          <a class="btn primary" href="index.html">Back to form</a>
+          <a class="btn" href="failure.html">View failure page</a>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
