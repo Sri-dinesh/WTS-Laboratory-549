@@ -1,14 +1,19 @@
 
-//Program to update a field in Database-using Prepared Statement
+// Program to update a field in Database-using Prepared Statement
 import java.sql.*;
 import java.util.*;
 
 public class UpdateTablePrepared {
+
     public static void main(String args[]) {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/jdbc_demo", "eremika",
+
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mariadb://localhost:3306/jdbc_demo",
+                    "eremika",
                     "Mikasa");
+
             Scanner sc = new Scanner(System.in);
             System.out.println("Enter the Product Id to Update price");
             int pid = sc.nextInt();

@@ -1,13 +1,18 @@
 
-//Program to retrieve Data from Database-using prepared statement
+// Program to retrieve Data from Database-using prepared statement
 import java.sql.*;
 
 public class GetTablePrepared {
+
     public static void main(String args[]) {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/jdbc_demo", "eremika",
+
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mariadb://localhost:3306/jdbc_demo",
+                    "eremika",
                     "Mikasa");
+
             String qry = "select * from products";
             PreparedStatement ps = con.prepareStatement(qry);
             ResultSet rs = ps.executeQuery();

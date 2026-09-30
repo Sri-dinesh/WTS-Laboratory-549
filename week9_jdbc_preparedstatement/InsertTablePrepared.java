@@ -1,14 +1,18 @@
 
-//Program to insert Product Data - using Prepared Statement
+// Program to insert Product Data - using Prepared Statement
 import java.io.*;
 import java.sql.*;
 import java.util.*;
 
 public class InsertTablePrepared {
+
     public static void main(String args[]) {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/jdbc_demo", "eremika",
+
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mariadb://localhost:3306/jdbc_demo",
+                    "eremika",
                     "Mikasa");
 
             Scanner sc = new Scanner(System.in);

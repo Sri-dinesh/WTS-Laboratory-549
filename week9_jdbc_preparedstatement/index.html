@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Week 09 - JDBC PreparedStatement</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --bg-subtle: #f9fafb;
+        --border: #e5e7eb;
+        --border-hover: #d1d5db;
+        --text-main: #111827;
+        --text-muted: #4b5563;
+        --text-dim: #9ca3af;
+        --primary: #18181b;
+        --primary-hover: #27272a;
+        --accent: #2563eb;
+        --success: #16a34a;
+        --radius-sm: 6px;
+        --radius-md: 10px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text-main);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
+      }
+
+      .wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 24px 40px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        text-decoration: none;
+        padding: 6px 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        transition: all 0.15s ease;
+      }
+
+      .back-link:hover {
+        color: var(--text-main);
+        border-color: var(--border-hover);
+        background: var(--bg-subtle);
+      }
+
+      .meta-pill {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .meta-pill strong {
+        color: var(--text-main);
+      }
+
+      .hero {
+        padding: 40px 0 28px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 28px;
+      }
+
+      .hero-tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+        display: inline-block;
+      }
+
+      .hero h1 {
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 8px;
+      }
+
+      .hero p {
+        max-width: 760px;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .card {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 22px;
+      }
+
+      .card h2 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
+
+      .card p,
+      .card li {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
+
+      .card ul {
+        padding-left: 18px;
+        display: grid;
+        gap: 6px;
+      }
+
+      .code-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .program {
+        border: 1px solid var(--border);
+        background: var(--bg-subtle);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+      }
+
+      .program-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 6px;
+      }
+
+      .program code {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.82rem;
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: var(--success);
+      }
+
+      .footer-note {
+        font-size: 0.8rem;
+        color: var(--text-dim);
+        padding-top: 8px;
+      }
+
+      @media (max-width: 720px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar {
+          gap: 10px;
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <a class="back-link" href="../index.html">Back to Labs</a>
+        <div class="meta-pill">
+          <strong>Week 09</strong> JDBC PreparedStatement
+        </div>
+      </div>
+
+      <section class="hero">
+        <span class="hero-tag">Database Programming</span>
+        <h1>CRUD using PreparedStatement</h1>
+        <p>
+          Create a product table with product number, name, image, and price,
+          then perform insert, retrieve, update, and delete operations using
+          parameterized JDBC queries.
+        </p>
+      </section>
+
+      <div class="grid">
+        <section class="card">
+          <h2>Pre-Lab Questions</h2>
+          <ul>
+            <li>Purpose of Prepared and Callable Statement</li>
+            <li>Steps to create a Prepared Statement</li>
+            <li>Steps to create a Callable Statement</li>
+            <li>Stored procedure and stored function</li>
+            <li>Difference between procedure and function</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2>Database Theme</h2>
+          <p>Uses the same MariaDB credentials as the previous JDBC labs.</p>
+          <div class="footer-note">
+            URL: jdbc:mariadb://localhost:3306/jdbc_demo<br />
+            User: eremika<br />
+            Driver: org.mariadb.jdbc.Driver
+          </div>
+        </section>
+      </div>
+
+      <section class="card">
+        <h2 style="margin-bottom: 14px">Programs</h2>
+        <div class="code-list">
+          <div class="program">
+            <div class="program-top">
+              <code>9(i) CreateTablePrepared.java</code>
+              <span class="badge">Create</span>
+            </div>
+            <p>Creates the <strong>products</strong> table in MariaDB.</p>
+          </div>
+          <div class="program">
+            <div class="program-top">
+              <code>9(ii) InsertTablePrepared.java</code>
+              <span class="badge">Insert</span>
+            </div>
+            <p>
+              Inserts product records using placeholders and BLOB image data.
+            </p>
+          </div>
+          <div class="program">
+            <div class="program-top">
+              <code>9(iii) GetTablePrepared.java</code>
+              <span class="badge">Read</span>
+            </div>
+            <p>Retrieves all product rows from the table.</p>
+          </div>
+          <div class="program">
+            <div class="program-top">
+              <code>9(iv) UpdateTablePrepared.java</code>
+              <span class="badge">Update</span>
+            </div>
+            <p>Updates the price for a selected product number.</p>
+          </div>
+          <div class="program">
+            <div class="program-top">
+              <code>9(v) DeleteTablePrepared.java</code>
+              <span class="badge">Delete</span>
+            </div>
+            <p>Deletes a product record by product number.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
