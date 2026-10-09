@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+    <context-param>
+        <!-- Linux / MariaDB is active. For Windows / MySQL, replace this value with
+             jdbc:mysql://localhost:3306/jdbc_demo and use the MySQL driver below. -->
+        <param-name>db.url</param-name>
+        <param-value>jdbc:mariadb://localhost:3306/jdbc_demo</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>db.user</param-name>
+        <param-value>eremika</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>db.password</param-name>
+        <param-value>Mikasa</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>db.driver</param-name>
+        <param-value>org.mariadb.jdbc.Driver</param-value>
+    </context-param>
+
+    <!-- Windows / MySQL replacement values:
+         db.url = jdbc:mysql://localhost:3306/jdbc_demo
+         db.user = root
+         db.password = your-MySQL-root-password
+         db.driver = com.mysql.cj.jdbc.Driver
+         Replace the active context-param values above as a complete set. -->
+
+    <listener>
+        <listener-class>com.greenswap.util.AppContextListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>AddItemServlet</servlet-name>
+        <servlet-class>com.greenswap.servlet.AddItemServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ListItemsServlet</servlet-name>
+        <servlet-class>com.greenswap.servlet.ListItemsServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ClaimItemServlet</servlet-name>
+        <servlet-class>com.greenswap.servlet.ClaimItemServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>DeleteItemServlet</servlet-name>
+        <servlet-class>com.greenswap.servlet.DeleteItemServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddItemServlet</servlet-name>
+        <url-pattern>/add-item</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ListItemsServlet</servlet-name>
+        <url-pattern>/list-items</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ClaimItemServlet</servlet-name>
+        <url-pattern>/claim-item</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>DeleteItemServlet</servlet-name>
+        <url-pattern>/delete-item</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+</web-app>
