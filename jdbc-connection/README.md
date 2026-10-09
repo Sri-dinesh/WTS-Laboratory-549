@@ -16,14 +16,15 @@ jdbc-connection/
 ```
 
 The file is organized as:
+
 1. **Database settings** at the top (URL, USER, PASSWORD constants).
 2. **main()** — connects to the DB **once** at startup, then shows the menu.
 3. **One method per menu action**, each showing a different JDBC concept:
-   - `connect()`        → opens the single shared connection
-   - `register()`       → INSERT with `PreparedStatement` placeholders
-   - `listAll()`        → SELECT many rows via `ResultSet`
-   - `findByEmail()`    → SELECT one row by a `?` parameter
-   - `deleteByEmail()`  → DELETE, `executeUpdate()` row count
+   - `connect()` → opens the single shared connection
+   - `register()` → INSERT with `PreparedStatement` placeholders
+   - `listAll()` → SELECT many rows via `ResultSet`
+   - `findByEmail()` → SELECT one row by a `?` parameter
+   - `deleteByEmail()` → DELETE, `executeUpdate()` row count
    - `findEmailExists()` → tiny helper (duplicate check)
 
 ---
@@ -86,6 +87,7 @@ java  -cp "$JAR:out" RegistrationApp               # run
 
    Run this **from inside the `jdbc-connection` folder** so it finds `setup.sql`
    (easiest: open the folder in Explorer, type `cmd` in the address bar and press Enter).
+
 4. Download the **MariaDB JDBC driver jar** from
    <https://mariadb.com/downloads/connectors/connectors-data-access/java8-client>
    and save it somewhere fixed, e.g. `C:\jars\mariadb-java-client-3.5.9.jar`.
@@ -103,10 +105,11 @@ java  -cp "%JAR%;out" RegistrationApp
 ```
 
 Note the two Windows differences:
+
 - classpath separator is **`;`** (semicolon) instead of `:`
 - path separator is **`\`** instead of `/`
 
-(PowerShell users: use `$env:JAR = "C:\jars\mariadb-java-client-3.5.9.jar"` instead of `set`, 
+(PowerShell users: use `$env:JAR = "C:\jars\mariadb-java-client-3.5.9.jar"` instead of `set`,
 and quote `"$env:JAR;out"` in the java command.)
 
 ## 3. What you should see
@@ -129,3 +132,12 @@ Connected to the database!
 - `try-with-resources` — statements/result sets are closed automatically.
 - `executeUpdate()` for INSERT/DELETE vs `executeQuery()` for SELECT.
 - `ResultSet` — how rows are read back.
+
+## Linux / MariaDB and Windows / MySQL
+
+`src/RegistrationApp.java` keeps the Linux/MariaDB settings active and includes a commented Windows/MySQL set. Use one complete set at a time:
+
+- Linux / MariaDB: `jdbc:mariadb://localhost:3306/jdbc_demo`, `eremika`, `Mikasa`, `org.mariadb.jdbc.Driver`
+- Windows / MySQL: `jdbc:mysql://localhost:3306/jdbc_demo`, `root`, your MySQL root password, `com.mysql.cj.jdbc.Driver`
+
+Install the MariaDB Java client for the first set or MySQL Connector/J for the second set.

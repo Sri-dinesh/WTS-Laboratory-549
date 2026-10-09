@@ -39,6 +39,10 @@ Uses the same credentials as the earlier JDBC exercises:
 - Password: `Mikasa`
 - Driver: `org.mariadb.jdbc.Driver`
 
+### Windows / MySQL alternative
+
+`src/Validate.java` contains a commented MySQL alternative. Comment the MariaDB URL, user, password, and driver together, then use `jdbc:mysql://localhost:3306/jdbc_demo`, user `root`, your MySQL root password, and `com.mysql.cj.jdbc.Driver`. Add MySQL Connector/J to the application classpath.
+
 ## Expected Table
 
 The validation query uses the `users` table from `jdbc_demo` with at least:

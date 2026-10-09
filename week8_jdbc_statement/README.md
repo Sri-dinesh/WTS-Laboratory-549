@@ -75,6 +75,10 @@ java Delete
 - Driver: org.mariadb.jdbc.Driver
 - URL: jdbc:mariadb://localhost:3306/jdbc_demo
 
+### Windows / MySQL alternative
+
+The Java files contain commented alternatives for MySQL. Comment the active MariaDB driver and connection, then uncomment the MySQL values as one complete set: `com.mysql.cj.jdbc.Driver`, `jdbc:mysql://localhost:3306/jdbc_demo`, user `root`, and your MySQL root password. Use MySQL Connector/J for this configuration; do not mix it with the MariaDB driver.
+
 ## Post-Lab Questions
 
 1. Which driver is best suitable to work on with JDBC?

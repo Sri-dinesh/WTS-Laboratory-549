@@ -12,4 +12,6 @@ This Tomcat application performs list, add, update, and delete operations on the
 
 The connection defaults match the earlier JDBC experiments: URL `jdbc:mariadb://localhost:3306/employee2`, user `eremika`, password `Mikasa`, and driver `org.mariadb.jdbc.Driver`. Override them with the JVM properties `employee.db.url`, `employee.db.user`, and `employee.db.password`.
 
+For Windows with MySQL, comment the MariaDB URL and driver in `src/DBConnection.java` and use `jdbc:mysql://localhost:3306/employee2`, user `root`, your MySQL root password, and `com.mysql.cj.jdbc.Driver`. Add MySQL Connector/J to `WEB-INF/lib`.
+
 Although this experiment demonstrates `Statement`, input is validated and text values are escaped before SQL execution. `PreparedStatement` is preferred in production applications.
