@@ -1,0 +1,9 @@
+CREATE DATABASE IF NOT EXISTS employee2;
+USE employee2;
+
+CREATE TABLE IF NOT EXISTS Employee (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    department VARCHAR(100) NOT NULL,
+    salary DECIMAL(12, 2) NOT NULL CHECK (salary >= 0)
+);

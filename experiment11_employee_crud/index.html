@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Management</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 32px 20px;
+        background: #f4f7fb;
+        color: #172033;
+      }
+      h1 {
+        margin-bottom: 28px;
+      }
+      section {
+        margin: 20px 0;
+        padding: 22px;
+        background: #fff;
+        border: 1px solid #dce3ef;
+        border-radius: 8px;
+      }
+      form {
+        display: grid;
+        gap: 10px;
+        max-width: 420px;
+      }
+      input,
+      button {
+        box-sizing: border-box;
+        padding: 10px 12px;
+        font: inherit;
+      }
+      button {
+        border: 0;
+        border-radius: 4px;
+        background: #1f5eff;
+        color: #fff;
+        cursor: pointer;
+      }
+      .danger {
+        background: #bd2c2c;
+      }
+      a {
+        color: #1f5eff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Employee Management System</h1>
+
+    <section>
+      <h2>Employee List</h2>
+      <p><a href="employee?action=list">View All Employees</a></p>
+    </section>
+
+    <section>
+      <h2>Add New Employee</h2>
+      <form action="employee" method="post">
+        <input type="hidden" name="action" value="add" />
+        <label for="add-name">Name</label>
+        <input id="add-name" name="name" required maxlength="100" />
+        <label for="add-department">Department</label>
+        <input id="add-department" name="department" required maxlength="100" />
+        <label for="add-salary">Salary</label>
+        <input
+          id="add-salary"
+          name="salary"
+          type="number"
+          min="0"
+          step="0.01"
+          required
+        />
+        <button type="submit">Add Employee</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Update Employee</h2>
+      <form action="employee" method="post">
+        <input type="hidden" name="action" value="update" />
+        <label for="update-id">Employee ID</label>
+        <input id="update-id" name="id" type="number" min="1" required />
+        <label for="update-name">Name</label>
+        <input id="update-name" name="name" required maxlength="100" />
+        <label for="update-department">Department</label>
+        <input
+          id="update-department"
+          name="department"
+          required
+          maxlength="100"
+        />
+        <label for="update-salary">Salary</label>
+        <input
+          id="update-salary"
+          name="salary"
+          type="number"
+          min="0"
+          step="0.01"
+          required
+        />
+        <button type="submit">Update Employee</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Delete Employee</h2>
+      <form action="employee" method="post">
+        <input type="hidden" name="action" value="delete" />
+        <label for="delete-id">Employee ID</label>
+        <input id="delete-id" name="id" type="number" min="1" required />
+        <button class="danger" type="submit">Delete Employee</button>
+      </form>
+    </section>
+  </body>
+</html>
